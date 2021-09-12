@@ -1,14 +1,72 @@
 {% extends 'base.html' %} {% block head %}
 <title>Home | College-Space</title>
+<link
+	rel="stylesheet"
+	href="{{ url_for('static',  filename='css/index.css') }}"
+/>
 <script>
 	const storage = window.localStorage;
 	window.onload = function () {
 		let token = JSON.parse(storage.getItem("token"));
+		let user = JSON.parse(storage.getItem("user"));
 		if (token === null) {
 			window.location.href = "/login";
+		} else {
+			if (user === null) {
+				let data = { token: token };
+				fetch("/api/verify-token", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(data),
+				})
+					.then((response) => response.json())
+					.then((data) => {
+						user = data.data;
+						$("#user-name").html(user.name);
+						storage.setItem("user", JSON.stringify(user));
+						console.log("Success:", data);
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			} else {
+				$("#user-name").html(user.name);
+			}
 		}
 	};
 </script>
 {% endblock %} {% block body %}
-<div>Index Page</div>
+<!-- Image and text -->
+<div class="navbar">
+	<div class="header_contents">
+		<img
+			src="{{ url_for('static',  filename='images/favicon.png') }}"
+			alt=""
+			width="30"
+			height="30"
+		/>
+		&nbsp;&nbsp;
+		<h4 class="header text-light">College-Space</h4>
+	</div>
+
+	<div class="header_contents">
+		<a href="" class="btn">Home</a>
+		<a href="" class="btn">Posts</a>
+		<a href="" class="btn">Notes</a>
+		<a href="" class="btn">About</a>
+	</div>
+
+	<div id="profile-section" class="header_contents">
+		<img
+			src="{{ url_for('static',  filename='images/user_icon.png') }}"
+			alt=""
+			width="30"
+			height="30"
+		/>
+		&nbsp;&nbsp;
+		<h4 id="user-name" class="header">Loading...</h4>
+	</div>
+</div>
 {%endblock %}

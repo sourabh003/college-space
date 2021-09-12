@@ -8,32 +8,26 @@
 	const storage = window.localStorage;
 	window.onload = function () {
 		let token = JSON.parse(storage.getItem("token"));
-		let user = JSON.parse(storage.getItem("user"));
 		if (token === null) {
 			window.location.href = "/login";
 		} else {
-			if (user === null) {
-				let data = { token: token };
-				fetch("/api/verify-token", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(data),
+			let data = { token: token };
+			fetch("/api/verify-token", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					user = data.data;
+					$("#user-name").html(user.name);
+					console.log("Success:", data);
 				})
-					.then((response) => response.json())
-					.then((data) => {
-						user = data.data;
-						$("#user-name").html(user.name);
-						storage.setItem("user", JSON.stringify(user));
-						console.log("Success:", data);
-					})
-					.catch((error) => {
-						console.error("Error:", error);
-					});
-			} else {
-				$("#user-name").html(user.name);
-			}
+				.catch((error) => {
+					console.error("Error:", error);
+				});
 		}
 	};
 </script>

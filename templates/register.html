@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block head %}
-<title>Login | College-Space</title>
+<title>Register | College-Space</title>
 <link
 	rel="stylesheet"
 	href="{{ url_for('static',  filename='css/login.css') }}"
@@ -23,7 +23,10 @@
 			data.email === "" ||
 			data.password === null ||
 			data.password === undefined ||
-			data.password === ""
+			data.password === "" ||
+			data.name === null ||
+			data.name === undefined ||
+			data.name === ""
 		) {
 			return false;
 		} else {
@@ -32,18 +35,19 @@
 	};
 
 	// Method for login
-	const login = () => {
+	const register = () => {
 		loading(true);
 		$("#login-form").submit(function (e) {
 			e.preventDefault();
 		});
 		let data = {
+			name: $("#inputName").val(),
 			email: $("#inputEmail").val(),
 			password: $("#inputPassword").val(),
 		};
 
 		if (validate(data)) {
-			fetch("/api/login", {
+			fetch("/api/register", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -52,10 +56,13 @@
 			})
 				.then((response) => response.json())
 				.then((data) => {
+					$("#btn-submit").attr("disabled", true);
 					loading(false);
 					banner(data);
-					$("#btn-submit").attr("disabled", true);
-					console.log("Success:", data);
+					storage.setItem("user", JSON.stringify(data.data));
+					setTimeout(() => {
+						window.location.href = "/";
+					}, 3000);
 				})
 				.catch((error) => {
 					loading(false);
@@ -107,11 +114,15 @@
 	}
 </style>
 {% endblock %} {% block body %}
-<div id="main-content" onload="checkUser()">
+<div id="main-content">
 	<div id="form-container" class="font">
-		<div id="form-header">Login to College-Space</div>
+		<div id="form-header">Register to College-Space</div>
 		<br />
 		<form id="login-form">
+			<div class="form-group">
+				<label for="exampleInputEmail1">Name</label>
+				<input type="text" class="form-control" id="inputName" />
+			</div>
 			<div class="form-group">
 				<label for="exampleInputEmail1">Email</label>
 				<input
@@ -126,12 +137,12 @@
 				<input type="password" class="form-control" id="inputPassword" />
 			</div>
 			<br />
-			<button id="btn-submit" onclick="login()" class="btn btn-primary">
-				Login
+			<button id="btn-submit" onclick="register()" class="btn btn-primary">
+				Register
 			</button>
 			<hr />
 			<center>
-				<a href="/register">Not registered? Click here to Register</a>
+				<a href="/login">Already a user? Click here to Login</a>
 			</center>
 		</form>
 	</div>

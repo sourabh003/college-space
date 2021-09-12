@@ -14,5 +14,8 @@ def create_user(user):
     mycursor.execute(sql, val)
     mydb.commit()
 
-    print(mycursor.rowcount, "record inserted.")
+    print(mycursor.rowcount, " user registered")
     return mycursor.rowcount
+
+def login_user(user):
+    return None

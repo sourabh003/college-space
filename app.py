@@ -4,18 +4,26 @@ from app.controllers.users import user_login, user_signup
 
 # Default Route for index page
 @app.route("/")
-def hello():
+def home():
+    return render_template('index.html')
+
+@app.route("/login")
+def loginPage():
     return render_template('login.html')
 
-# Route for user login 
-@app.route('/login',methods = ['POST'])
-def login():
+@app.route("/register")
+def registerPage():
+    return render_template('register.html')
+
+# API for user login 
+@app.route('/api/login',methods = ['POST'])
+def loginAPI():
     data = request.get_json()
     return user_login(data)
 
-# Route for user signup
-@app.route('/register',methods = ['POST'])
-def register():
+# API for user signup
+@app.route('/api/register',methods = ['POST'])
+def registerAPI():
     data = request.get_json()
     return user_signup(data)
 

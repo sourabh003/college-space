@@ -1,5 +1,12 @@
 {% extends 'base.html' %} {% block head %}
 <title>Home | College-Space</title>
+<script>
+	const storage = window.localStorage;
+	window.onload = function () {
+		let user = JSON.parse(storage.getItem("user"));
+		console.log(user);
+	};
+</script>
 {% endblock %} {% block body %}
 <div>Index Page</div>
 {%endblock %}

@@ -1,0 +1,137 @@
+{% extends 'base.html' %} {% block head %}
+<title>Login | College-Space</title>
+<link
+	rel="stylesheet"
+	href="{{ url_for('static',  filename='css/login.css') }}"
+/>
+
+<script type="text/javascript">
+	// Method to validate inputs
+	const validate = (data) => {
+		if (
+			data.email === null ||
+			data.email === undefined ||
+			data.email === "" ||
+			data.password === null ||
+			data.password === undefined ||
+			data.password === ""
+		) {
+			return false;
+		} else {
+			return true;
+		}
+	};
+
+	// Method for login
+	const login = () => {
+		loading(true);
+		$("#login-form").submit(function (e) {
+			e.preventDefault();
+		});
+		let data = {
+			email: $("#inputEmail").val(),
+			password: $("#inputPassword").val(),
+		};
+
+		if (validate(data)) {
+			fetch("/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					loading(false);
+					banner(data);
+					console.log("Success:", data);
+				})
+				.catch((error) => {
+					loading(false);
+					banner(data);
+					console.error("Error:", error);
+				});
+		} else {
+			loading(false);
+			alert("Fields Empty!");
+		}
+	};
+
+	// Loader
+	const loading = (show) => {
+		if (show) {
+			$("#loader").css("display", "block");
+		} else {
+			$("#loader").css("display", "none");
+		}
+	};
+
+	// Banner
+	const banner = (data) => {
+		if (data.success) {
+			$("#banner").css("background-color", "#00aa8d");
+			$("#banner").html(`<b>${data.message}</b>`);
+			$("#banner").css("display", "block");
+		} else {
+			$("#banner").css("background-color", "#C62828");
+			$("#banner").html(`<b>${data.message}</b>`);
+			$("#banner").css("display", "block");
+		}
+
+		setTimeout(() => {
+			$("#banner").css("display", "none");
+		}, 2000);
+	};
+</script>
+
+<style>
+	#main-content {
+		background: url("{{ url_for('static',filename='images/login_bg_alt.jpg') }}");
+		background-repeat: no-repeat;
+		background-size: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 100vh;
+	}
+</style>
+{% endblock %} {% block body %}
+<div id="main-content">
+	<div id="form-container" class="font">
+		<div id="form-header">Login to College-Space</div>
+		<br />
+		<form id="login-form">
+			<div class="form-group">
+				<label for="exampleInputEmail1">Email</label>
+				<input
+					type="email"
+					class="form-control"
+					id="inputEmail"
+					aria-describedby="emailHelp"
+				/>
+			</div>
+			<div class="form-group">
+				<label for="exampleInputPassword1">Password</label>
+				<input type="password" class="form-control" id="inputPassword" />
+			</div>
+			<br />
+			<button id="btn-submit" onclick="login()" class="btn btn-primary">
+				Login
+			</button>
+		</form>
+	</div>
+</div>
+
+<div id="loader">
+	<img
+		src="{{ url_for('static',  filename='images/loader.gif') }}"
+		alt="Loading"
+		width="30"
+		height="30"
+	/>
+	&nbsp;<b>Loading...</b>
+</div>
+
+<div id="banner"></div>
+{%endblock %}

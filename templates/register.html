@@ -9,8 +9,8 @@
 	const storage = window.localStorage;
 
 	window.onload = function () {
-		let user = storage.getItem("user");
-		if (user !== null) {
+		let token = storage.getItem("token");
+		if (token !== null) {
 			window.location.href = "/";
 		}
 	};
@@ -59,7 +59,7 @@
 					$("#btn-submit").attr("disabled", true);
 					loading(false);
 					banner(data);
-					storage.setItem("user", JSON.stringify(data.data));
+					storage.setItem("token", JSON.stringify(data.data.token));
 					setTimeout(() => {
 						window.location.href = "/";
 					}, 3000);

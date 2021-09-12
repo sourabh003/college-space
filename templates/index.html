@@ -3,8 +3,10 @@
 <script>
 	const storage = window.localStorage;
 	window.onload = function () {
-		let user = JSON.parse(storage.getItem("user"));
-		console.log(user);
+		let token = JSON.parse(storage.getItem("token"));
+		if (token === null) {
+			window.location.href = "/login";
+		}
 	};
 </script>
 {% endblock %} {% block body %}

@@ -4,6 +4,10 @@
 	rel="stylesheet"
 	href="{{ url_for('static',  filename='css/index.css') }}"
 />
+<link
+	rel="stylesheet"
+	href="{{ url_for('static',  filename='css/navbar.css') }}"
+/>
 <script>
 	const storage = window.localStorage;
 	window.onload = function () {
@@ -11,26 +15,42 @@
 		if (token === null) {
 			window.location.href = "/login";
 		} else {
-			let data = { token: token };
-			fetch("/api/verify-token", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(data),
-			})
-				.then((response) => response.json())
-				.then((data) => {
-					user = data.data;
-					$("#user-name").html(user.name);
-					console.log("Success:", data);
+			let user = JSON.parse(storage.getItem("user"));
+			if (user == null) {
+				let data = { token: token };
+				fetch("/api/verify-token", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(data),
 				})
-				.catch((error) => {
-					console.error("Error:", error);
-				});
+					.then((response) => response.json())
+					.then((data) => {
+						user = data.data;
+						$("#user-name").html(user.name);
+						storage.setItem("user", JSON.stringify(user));
+						console.log("Success:", data);
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			} else {
+				console.log("User Present");
+				$("#user-name").html(user.name);
+			}
 		}
 	};
 </script>
+
+<style>
+	#hero-image-container {
+		background: url("{{ url_for('static',  filename='images/background.jpg') }}");
+		background-size: cover;
+		background-position: center;
+		min-height: 100vh;
+	}
+</style>
 {% endblock %} {% block body %}
 <!-- Image and text -->
 <div class="navbar">
@@ -42,14 +62,14 @@
 			height="30"
 		/>
 		&nbsp;&nbsp;
-		<h4 class="header text-light">College-Space</h4>
+		<h4 class="header text-light font">College-Space</h4>
 	</div>
 
 	<div class="header_contents">
-		<a href="" class="btn">Home</a>
-		<a href="" class="btn">Posts</a>
-		<a href="" class="btn">Notes</a>
-		<a href="" class="btn">About</a>
+		<a href="" class="btn font">Home</a>
+		<a href="" class="btn font">Posts</a>
+		<a href="" class="btn font">Notes</a>
+		<a href="" class="btn font">About</a>
 	</div>
 
 	<div id="profile-section" class="header_contents">
@@ -60,7 +80,64 @@
 			height="30"
 		/>
 		&nbsp;&nbsp;
-		<h4 id="user-name" class="header">Loading...</h4>
+		<h5 id="user-name" class="header font">Loading...</h5>
+	</div>
+</div>
+
+<!-- Body Block -->
+<div id="body-block">
+	<!-- Shortcut Section -->
+	<div id="shortcuts">
+		<div class="shortcut-card">
+			<img
+				src="{{ url_for('static',  filename='images/notes.png') }}"
+				alt=""
+				width="50"
+				height="50"
+			/>
+			&nbsp;&nbsp;
+			<h4 class="font">Notes</h4>
+		</div>
+		<div class="shortcut-card">
+			<img
+				src="{{ url_for('static',  filename='images/notice.png') }}"
+				alt=""
+				width="50"
+				height="50"
+			/>
+			&nbsp;&nbsp;
+			<h4 class="font">Notices</h4>
+		</div>
+		<div class="shortcut-card">
+			<img
+				src="{{ url_for('static',  filename='images/post.png') }}"
+				alt=""
+				width="50"
+				height="50"
+			/>
+			&nbsp;&nbsp;
+			<h4 class="font">Posts</h4>
+		</div>
+		<div class="shortcut-card">
+			<img
+				src="{{ url_for('static',  filename='images/notification.png') }}"
+				alt=""
+				width="50"
+				height="50"
+			/>
+			&nbsp;&nbsp;
+			<h4 class="font">Notifications</h4>
+		</div>
+	</div>
+
+	<!-- Upload Section -->
+	<div id="upload-section">
+		<h4 class="font">Upload Something</h4>
+		<hr />
+		<div id="upload-section-actions">
+			<h5 class="font">Create a Post, Upload Notes or Publish a Notice</h5>
+			<button class="btn custom-button font">Click Here</button>
+		</div>
 	</div>
 </div>
 {%endblock %}

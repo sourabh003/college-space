@@ -58,15 +58,20 @@
 				.then((data) => {
 					$("#btn-submit").attr("disabled", true);
 					loading(false);
-					banner(data);
-					storage.setItem("token", JSON.stringify(data.data.token));
-					setTimeout(() => {
-						window.location.href = "/";
-					}, 3000);
+					if (data.error) {
+						banner(data);
+						console.error("Error:", data);
+					} else {
+						banner(data);
+						storage.setItem("token", JSON.stringify(data.data.token));
+						setTimeout(() => {
+							window.location.href = "/";
+						}, 3000);
+					}
 				})
 				.catch((error) => {
 					loading(false);
-					banner(data);
+					banner({ success: false, message: error.message });
 					console.error("Error:", error);
 				});
 		} else {

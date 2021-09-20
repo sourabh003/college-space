@@ -1,55 +1,76 @@
-.navbar {
-	background-color: #282832;
-	border-radius: 0px;
+#body-block {
+	background-image: linear-gradient(180deg, #053772, #00082f);
+	min-height: 100vh;
+	/* border: solid 2px yellow; */
+	padding-left: 15%;
+	padding-right: 15%;
+	padding-top: 2%;
+}
+
+#hero-image {
+	width: 100%;
+}
+
+#shortcuts {
 	display: flex;
-	vertical-align: baseline;
-	align-content: center;
-	justify-content: space-between;
+	/* border: solid 2px red; */
+	/* padding: 2%; */
+}
+
+.shortcut-card {
 	padding: 10px;
-}
-
-.border {
-	border: solid 1px white;
-}
-
-.text-light {
-	color: white;
-}
-
-.header {
-	height: 100%;
-}
-
-.header_contents {
-	display: flex;
-	align-self: center;
-	vertical-align: baseline;
+	background-color: white;
+	padding: 1%;
+	width: 100%;
+	margin: 1%;
+	transition: 300ms;
 	justify-content: center;
-	cursor: pointer;
-	align-content: center;
+	vertical-align: middle;
 	align-items: center;
+	display: flex;
+	border-radius: 10px;
 }
 
-.header_contents > a {
-	color: gray;
-	transition: 300ms;
+.shortcut-card:hover {
+	cursor: pointer;
+	transform: scale(1.2);
+	box-shadow: 0px 2px 13px 1px rgba(0, 0, 0, 0.75);
+	-webkit-box-shadow: 0px 2px 13px 1px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 0px 2px 13px 1px rgba(0, 0, 0, 0.75);
 }
 
-.header_contents > a:hover {
+#upload-section {
+	/* border: solid 2px greenyellow; */
+	background-color: white;
+	border-radius: 10px;
+	margin: 1%;
+	padding: 1.5%;
+}
+
+#upload-section-actions {
+	display: flex;
+	justify-content: space-between;
+}
+
+.custom-button {
+	background-color: #282832;
 	color: white;
-}
-
-#profile-section {
-	border: solid 1px white;
-	padding: 5px;
-	padding-left: 10px;
-	padding-right: 10px;
-	color: white;
+	padding: 1vh;
+	padding-left: 20px;
+	padding-right: 20px;
+	border: solid 2px #282832;
+	border-radius: 10px;
 	transition: 300ms;
-	border-radius: 50px;
+	font-size: medium;
+	outline: none;
 }
 
-#profile-section:hover {
-	border: solid 1px #16a085;
-	background-color: #16a085;
+.custom-button:hover {
+	border: solid 2px #282832;
+	color: #282832;
+	background-color: white;
+}
+
+.custom-button:focus {
+	outline: none;
 }

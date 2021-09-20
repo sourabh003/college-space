@@ -53,14 +53,22 @@
 				.then((response) => response.json())
 				.then((data) => {
 					loading(false);
-					banner(data);
-					storage.setItem("token", JSON.stringify(data.data.token));
-					$("#btn-submit").attr("disabled", true);
-					console.log("Success:", data);
+					console.log("Success:", data.message);
+					if (data.error) {
+						banner(data);
+						console.error("Error:", data);
+					} else {
+						banner(data);
+						storage.setItem("token", JSON.stringify(data.data.token));
+						$("#btn-submit").attr("disabled", true);
+						setTimeout(() => {
+							window.location.href = "/";
+						}, 3000);
+					}
 				})
 				.catch((error) => {
 					loading(false);
-					banner(data);
+					banner({ success: false, message: error.message });
 					console.error("Error:", error);
 				});
 		} else {

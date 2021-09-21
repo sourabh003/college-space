@@ -8,40 +8,7 @@
 	rel="stylesheet"
 	href="{{ url_for('static',  filename='css/navbar.css') }}"
 />
-<script>
-	const storage = window.localStorage;
-	window.onload = function () {
-		let token = JSON.parse(storage.getItem("token"));
-		if (token === null) {
-			window.location.href = "/login";
-		} else {
-			let user = JSON.parse(storage.getItem("user"));
-			if (user == null) {
-				let data = { token: token };
-				fetch("/api/verify-token", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(data),
-				})
-					.then((response) => response.json())
-					.then((data) => {
-						user = data.data;
-						$("#user-name").html(user.name);
-						storage.setItem("user", JSON.stringify(user));
-						console.log("Success:", data);
-					})
-					.catch((error) => {
-						console.error("Error:", error);
-					});
-			} else {
-				console.log("User Present");
-				$("#user-name").html(user.name);
-			}
-		}
-	};
-</script>
+<script src="{{ url_for('static',  filename='js/index.js') }}"></script>
 
 <style>
 	#hero-image-container {
@@ -136,7 +103,58 @@
 		<hr />
 		<div id="upload-section-actions">
 			<h5 class="font">Create a Post, Upload Notes or Publish a Notice</h5>
-			<button class="btn custom-button font">Click Here</button>
+			<button
+				class="custom-button font text-light"
+				data-toggle="modal"
+				data-target="#uploadModal"
+			>
+				Click Here
+			</button>
+		</div>
+	</div>
+
+	<!-- Activities Section -->
+	<br />
+	<div id="activities-section"></div>
+	<br />
+</div>
+
+<div
+	class="modal fade"
+	id="uploadModal"
+	tabindex="-1"
+	role="dialog"
+	aria-labelledby="uploadModal"
+	aria-hidden="true"
+>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title font text-light" id="myModalLabel">
+					Upload Something
+				</h4>
+			</div>
+			<div class="modal-body">
+				<textarea
+					type="text"
+					id="post_content"
+					placeholder="Type Here"
+					class="custom-input font"
+				></textarea>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="font custom-button2" data-dismiss="modal">
+					Close
+				</button>
+				<button
+					id="btn_upload"
+					type="button"
+					class="custom-button font text-light"
+					onclick="uploadPost()"
+				>
+					Upload Post
+				</button>
+			</div>
 		</div>
 	</div>
 </div>

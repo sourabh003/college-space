@@ -73,3 +73,18 @@ def login_user(user):
                 data=None,
                 message="invalid Password"
             )
+
+def get_user(user):
+    print(f'Getting User Info : {user}')
+    mydb = connect_to_database()
+    mycursor = mydb.cursor()
+
+    sql = f"SELECT * FROM users WHERE email ='{user['email']}'"
+    mycursor.execute(sql)
+    result = mycursor.fetchall()  
+    userData = {
+            "id":result[0][0],
+            "name":result[0][1],
+            "email":result[0][2],
+        }
+    return userData

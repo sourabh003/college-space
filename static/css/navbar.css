@@ -2,11 +2,16 @@
 	background-color: #282832;
 	border-radius: 0px;
 	display: flex;
+	/* border: solid 1px yellow; */
 	margin: 0;
 	vertical-align: baseline;
 	align-content: center;
-	justify-content: space-between;
-	padding: 10px;
+	box-shadow: 0px 2px 13px 1px rgba(0, 0, 0, 0.75);
+	-webkit-box-shadow: 0px 2px 13px 1px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 0px 2px 13px 1px rgba(0, 0, 0, 0.75);
+	width: 100%;
+	position: fixed;
+	padding: 15px;
 }
 
 .border {
@@ -25,8 +30,10 @@
 	display: flex;
 	align-self: center;
 	vertical-align: baseline;
-	justify-content: center;
+	width: 90%;
+	/* justify-content: center; */
 	cursor: pointer;
+	/* border: solid 1px pink; */
 	align-content: center;
 	align-items: center;
 }
@@ -40,17 +47,25 @@
 	color: white;
 }
 
+#nav-section {
+	justify-content: center;
+}
+
+#account-section {
+	justify-content: end;
+}
+
 #profile-section {
-	border: solid 1px white;
 	padding: 5px;
 	padding-left: 10px;
 	padding-right: 10px;
+	display: flex;
+	justify-content: center;
 	color: white;
 	transition: 300ms;
 	border-radius: 50px;
 }
 
 #profile-section:hover {
-	border: solid 1px #16a085;
-	background-color: #16a085;
+	background-color: #6d6d72;
 }

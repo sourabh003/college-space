@@ -45,6 +45,12 @@ const getPosts = () => {
 		.then((response) => response.json())
 		.then((data) => {
 			console.log("Success:", data);
+			if (data.data.posts.length == 0) {
+				let postLayout = `<div class="post-layout font">
+                    <center><h4 class="post-header" id="post">No Recent Activities</h4></center>
+                </div>`;
+				$("#activities-section").append(postLayout);
+			}
 			data.data.posts.forEach((post) => {
 				addPostInLayout(post, false);
 			});

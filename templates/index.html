@@ -32,91 +32,99 @@
 		<h4 class="header text-light font">College-Space</h4>
 	</div>
 
-	<div class="header_contents">
+	<div id="nav-section" class="header_contents">
 		<a href="" class="btn font">Home</a>
 		<a href="" class="btn font">Posts</a>
 		<a href="" class="btn font">Notes</a>
 		<a href="" class="btn font">About</a>
 	</div>
 
-	<div id="profile-section" class="header_contents">
-		<img
-			src="{{ url_for('static',  filename='images/user_icon.png') }}"
-			alt=""
-			width="30"
-			height="30"
-		/>
-		&nbsp;&nbsp;
-		<h5 id="user-name" class="header font">Loading...</h5>
+	<div id="account-section" class="header_contents">
+		<div id="profile-section">
+			<img
+				src="{{ url_for('static',  filename='images/user_icon.png') }}"
+				alt=""
+				width="30"
+				height="30"
+			/>
+			&nbsp;&nbsp;
+			<h5 id="user-name" class="header font">Loading...</h5>
+		</div>
 	</div>
 </div>
 
 <!-- Body Block -->
 <div id="body-block">
-	<!-- Shortcut Section -->
-	<div id="shortcuts">
-		<div class="shortcut-card">
-			<img
-				src="{{ url_for('static',  filename='images/notes.png') }}"
-				alt=""
-				width="50"
-				height="50"
-			/>
-			&nbsp;&nbsp;
-			<h4 class="font">Notes</h4>
+	<div class="corner-blocks" id="left-block"></div>
+	<div class="center-block" id="mid-block">
+		<!-- Shortcut Section -->
+		<div id="shortcuts">
+			<div class="shortcut-card">
+				<img
+					src="{{ url_for('static',  filename='images/notes.png') }}"
+					alt=""
+					width="50"
+					height="50"
+				/>
+				&nbsp;&nbsp;
+				<h4 class="font">Notes</h4>
+			</div>
+			<div class="shortcut-card">
+				<img
+					src="{{ url_for('static',  filename='images/notice.png') }}"
+					alt=""
+					width="50"
+					height="50"
+				/>
+				&nbsp;&nbsp;
+				<h4 class="font">Notices</h4>
+			</div>
+			<div class="shortcut-card">
+				<img
+					src="{{ url_for('static',  filename='images/post.png') }}"
+					alt=""
+					width="50"
+					height="50"
+				/>
+				&nbsp;&nbsp;
+				<h4 class="font">Posts</h4>
+			</div>
+			<div class="shortcut-card">
+				<img
+					src="{{ url_for('static',  filename='images/notification.png') }}"
+					alt=""
+					width="50"
+					height="50"
+				/>
+				&nbsp;&nbsp;
+				<h4 class="font">Notifications</h4>
+			</div>
 		</div>
-		<div class="shortcut-card">
-			<img
-				src="{{ url_for('static',  filename='images/notice.png') }}"
-				alt=""
-				width="50"
-				height="50"
-			/>
-			&nbsp;&nbsp;
-			<h4 class="font">Notices</h4>
-		</div>
-		<div class="shortcut-card">
-			<img
-				src="{{ url_for('static',  filename='images/post.png') }}"
-				alt=""
-				width="50"
-				height="50"
-			/>
-			&nbsp;&nbsp;
-			<h4 class="font">Posts</h4>
-		</div>
-		<div class="shortcut-card">
-			<img
-				src="{{ url_for('static',  filename='images/notification.png') }}"
-				alt=""
-				width="50"
-				height="50"
-			/>
-			&nbsp;&nbsp;
-			<h4 class="font">Notifications</h4>
-		</div>
-	</div>
 
-	<!-- Upload Section -->
-	<div id="upload-section">
-		<h4 class="font">Upload Something</h4>
+		<!-- Upload Section -->
+		<div id="upload-section">
+			<h4 class="font">Upload Something</h4>
+			<hr />
+			<div id="upload-section-actions">
+				<h5 class="font">Create a Post, Upload Notes or Publish a Notice</h5>
+				<button
+					class="custom-button font text-light"
+					data-toggle="modal"
+					data-target="#uploadModal"
+				>
+					Click Here
+				</button>
+			</div>
+		</div>
+
+		<!-- Activities Section -->
+		<br />
+		<center><h3 class="text-light font">Recent Activities</h3></center>
 		<hr />
-		<div id="upload-section-actions">
-			<h5 class="font">Create a Post, Upload Notes or Publish a Notice</h5>
-			<button
-				class="custom-button font text-light"
-				data-toggle="modal"
-				data-target="#uploadModal"
-			>
-				Click Here
-			</button>
-		</div>
+		<div id="activities-section"></div>
+		<br />
 	</div>
-
-	<!-- Activities Section -->
-	<br />
-	<div id="activities-section"></div>
-	<br />
+	<div class="corner-blocks" id="right-block"></div>
 </div>
 
 <div

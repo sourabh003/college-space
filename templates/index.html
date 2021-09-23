@@ -9,6 +9,7 @@
 	href="{{ url_for('static',  filename='css/navbar.css') }}"
 />
 <script src="{{ url_for('static',  filename='js/index.js') }}"></script>
+<script src="{{ url_for('static',  filename='js/app.js') }}"></script>
 
 <style>
 	#hero-image-container {
@@ -19,7 +20,7 @@
 	}
 </style>
 {% endblock %} {% block body %}
-<!-- Image and text -->
+<!-- Navbar Start -->
 <div class="navbar">
 	<div class="header_contents">
 		<img
@@ -49,11 +50,21 @@
 			/>
 			&nbsp;&nbsp;
 			<h5 id="user-name" class="header font">Loading...</h5>
+			&nbsp;&nbsp;
+			<button
+				id="btn-logout"
+				data-toggle="modal"
+				data-target="#logoutModal"
+				class="btn font"
+			>
+				<h5>Logout</h5>
+			</button>
 		</div>
 	</div>
 </div>
+<!-- Navbar Ends -->
 
-<!-- Body Block -->
+<!-- Body Block Starts -->
 <div id="body-block">
 	<div class="corner-blocks" id="left-block"></div>
 	<div class="center-block" id="mid-block">
@@ -126,7 +137,9 @@
 	</div>
 	<div class="corner-blocks" id="right-block"></div>
 </div>
+<!-- Body Block Ends -->
 
+<!-- Upload Modal Starts -->
 <div
 	class="modal fade"
 	id="uploadModal"
@@ -166,4 +179,48 @@
 		</div>
 	</div>
 </div>
+<!-- Upload Modal Ends -->
+
+<!-- Logout Modal Starts -->
+<div
+	class="modal fade"
+	id="logoutModal"
+	tabindex="-1"
+	role="dialog"
+	aria-labelledby="logoutModal"
+	aria-hidden="true"
+>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<center>
+					<h4 class="modal-title font text-light" id="myModalLabel">
+						You'll be logged out
+					</h4>
+				</center>
+			</div>
+			<div class="modal-body">
+				<img
+					src="{{ url_for('static',  filename='images/see-you.jpg') }}"
+					alt=""
+					id="logout-image"
+				/>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="font custom-button2" data-dismiss="modal">
+					Cancel
+				</button>
+				<button
+					id="btn_upload"
+					type="button"
+					class="custom-button font text-light"
+					onclick="logout()"
+				>
+					Logout
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Logout Modal Ends -->
 {%endblock %}

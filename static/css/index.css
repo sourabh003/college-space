@@ -118,31 +118,3 @@
 .custom-button2:focus {
 	outline: 0;
 }
-
-.post-layout {
-	background-color: #ececec;
-	border-radius: 10px;
-	margin: 1%;
-	cursor: pointer;
-	padding: 1.5%;
-}
-
-.post-header {
-	color: #282832;
-}
-
-.post-time {
-	color: gray;
-}
-
-.custom-input {
-	width: 100%;
-	padding: 1%;
-	min-height: 30vh;
-}
-
-.custom-line {
-	margin: 1%;
-	padding: 0;
-	background-color: #282832;
-}

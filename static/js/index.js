@@ -62,8 +62,21 @@ const getPosts = () => {
 
 const addPostInLayout = (post, prepend) => {
 	let postLayout = `<div class="post-layout font">
-			<h4 class="post-header" id="post">${post.created_by}</h4>
-			<h6 class="post-time">${post.created_date.time} &#x25cf; ${post.created_date.date}</h6>
+			<div class="post-layout-header">
+                <div class="post-creator-info">
+                    <h4 class="post-header" id="post">${post.created_by.name}</h4>
+                    <h6 class="post-time">${post.created_date.time} &#x25cf; ${post.created_date.date}</h6>
+                </div>
+                <div class="dropdown" >
+                    <button onclick="openPostOptions()" class="dropbtn">
+                        <i class="fa fa-ellipsis-v"></i>
+                    </button>
+                    <div id="postMenuDropdown" class="dropdown-content">
+                        <a onclick="deletePost(${post.id})">Delete Post</a>
+                        <a>Details</a>
+                    </div>
+			    </div>
+            </div>
 			<hr class="custom-line" />
 			<p>${post.data}</p>
 		</div>`;
@@ -103,4 +116,14 @@ const uploadPost = () => {
 		.catch((error) => {
 			console.error("Error:", error);
 		});
+};
+
+const deletePost = (post) => {
+	alert(post);
+};
+
+const logout = () => {
+	storage.clear();
+	$("#logoutModal").modal("hide");
+	window.location.href = "/login";
 };

@@ -69,3 +69,35 @@
 #profile-section:hover {
 	background-color: #6d6d72;
 }
+#profile-section:hover > #btn-logout {
+	display: block;
+}
+
+#btn-logout {
+	background-color: #c3362b;
+	color: white;
+	border-radius: 50px;
+	transition: 300ms;
+	padding: 0;
+	padding-left: 10px;
+	padding-right: 10px;
+	display: none;
+	font-size: medium;
+	outline: none;
+}
+
+#btn-logout:hover {
+	background-color: #621b16;
+}
+
+#btn-logout:focus {
+	outline: 0;
+}
+
+#btn-logout:active {
+	color: white;
+}
+
+#logout-image {
+	width: 100%;
+}

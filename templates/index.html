@@ -21,7 +21,7 @@
 </style>
 {% endblock %} {% block body %}
 <!-- Navbar Start -->
-<div class="navbar">
+<div class="navbar shadow">
 	<div class="header_contents">
 		<img
 			src="{{ url_for('static',  filename='images/favicon.png') }}"
@@ -45,6 +45,7 @@
 			<img
 				src="{{ url_for('static',  filename='images/user_icon.png') }}"
 				alt=""
+				id="profile-section-image"
 				width="30"
 				height="30"
 			/>
@@ -66,76 +67,113 @@
 
 <!-- Body Block Starts -->
 <div id="body-block">
-	<div class="corner-blocks" id="left-block"></div>
-	<div class="center-block" id="mid-block">
-		<!-- Shortcut Section -->
-		<div id="shortcuts">
-			<div class="shortcut-card">
+	<div class="corner-blocks" id="left-block">
+		<div id="profile-info" class="shadow">
+			<div id="profile-info-header" class="font">
 				<img
-					src="{{ url_for('static',  filename='images/notes.png') }}"
+					id="profile-info-image"
+					src="{{ url_for('static',  filename='images/user_icon.png') }}"
 					alt=""
-					width="50"
-					height="50"
+					width="100"
+					height="100"
 				/>
-				&nbsp;&nbsp;
-				<h4 class="font">Notes</h4>
 			</div>
-			<div class="shortcut-card">
-				<img
-					src="{{ url_for('static',  filename='images/notice.png') }}"
-					alt=""
-					width="50"
-					height="50"
-				/>
-				&nbsp;&nbsp;
-				<h4 class="font">Notices</h4>
-			</div>
-			<div class="shortcut-card">
-				<img
-					src="{{ url_for('static',  filename='images/post.png') }}"
-					alt=""
-					width="50"
-					height="50"
-				/>
-				&nbsp;&nbsp;
-				<h4 class="font">Posts</h4>
-			</div>
-			<div class="shortcut-card">
-				<img
-					src="{{ url_for('static',  filename='images/notification.png') }}"
-					alt=""
-					width="50"
-					height="50"
-				/>
-				&nbsp;&nbsp;
-				<h4 class="font">Notifications</h4>
+			<div id="profile-info-content">
+				<center>
+					<h4 class="font" id="profile-info-username">User Name</h4>
+				</center>
+				<center>
+					<h5 class="font" id="profile-info-user-position">User Branch</h5>
+				</center>
+				<br />
+				<hr class="line-break" />
+				<center>
+					<div class="full-width profile-info-attributes">
+						<h5 class="font" style="color: gray">Uploaded Posts</h5>
+						<h4 class="font" id="uploaded-posts-counter">0</h4>
+					</div>
+				</center>
+				<hr class="line-break" />
+				<center>
+					<div class="full-width profile-info-attributes">
+						<h5 class="font" style="color: gray">Uploaded Notes</h5>
+						<h4 class="font" id="uploaded-notes-counter">0</h4>
+					</div>
+				</center>
 			</div>
 		</div>
-
+	</div>
+	<div class="center-block" id="mid-block">
 		<!-- Upload Section -->
-		<div id="upload-section">
-			<h4 class="font">Upload Something</h4>
-			<hr />
-			<div id="upload-section-actions">
-				<h5 class="font">Create a Post, Upload Notes or Publish a Notice</h5>
+		<div id="upload-section" class="shadow">
+			<div class="flexbox">
+				<img
+					src="{{ url_for('static',  filename='images/user_icon.png') }}"
+					alt=""
+					id="profile-section-image"
+					width="50"
+					height="50"
+				/>
+			</div>
+			<div class="flexbox">
 				<button
 					class="custom-button font text-light"
 					data-toggle="modal"
 					data-target="#uploadModal"
 				>
-					Click Here
+					Create a Post
 				</button>
+				&nbsp;&nbsp;&nbsp;
+				<button class="custom-button3 font text-light">Upload Notes</button>
 			</div>
 		</div>
 
 		<!-- Activities Section -->
 		<br />
-		<center><h3 class="text-light font">Recent Activities</h3></center>
+		<center><h3 class="text-dark font">Recent Activities</h3></center>
 		<hr />
 		<div id="activities-section"></div>
 		<br />
 	</div>
-	<div class="corner-blocks" id="right-block"></div>
+	<div class="corner-blocks" id="right-block">
+		<!-- Shortcut Section -->
+		<div id="shortcuts" class="shadow radius">
+			<h4 class="font" style="font-weight: bold; margin: 0; padding: 20px">
+				Shortcuts
+			</h4>
+			<hr class="line-break" />
+			<div class="shortcut-card">
+				<img
+					src="{{ url_for('static',  filename='images/notes.png') }}"
+					alt=""
+					width="30"
+					height="30"
+				/>
+				&nbsp;&nbsp;
+				<h5 class="font">Notes</h5>
+			</div>
+			<div class="shortcut-card">
+				<img
+					src="{{ url_for('static',  filename='images/notice.png') }}"
+					alt=""
+					width="30"
+					height="30"
+				/>
+				&nbsp;&nbsp;
+				<h5 class="font">Notices</h5>
+			</div>
+			<div class="shortcut-card">
+				<img
+					src="{{ url_for('static',  filename='images/post.png') }}"
+					alt=""
+					width="30"
+					height="30"
+				/>
+				&nbsp;&nbsp;
+				<h5 class="font">Posts</h5>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- Body Block Ends -->
 
@@ -148,7 +186,7 @@
 	aria-labelledby="uploadModal"
 	aria-hidden="true"
 >
-	<div class="modal-dialog">
+	<div class="modal-dialog radius">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title font text-light" id="myModalLabel">

@@ -61,19 +61,19 @@ const getPosts = () => {
 };
 
 const addPostInLayout = (post, prepend) => {
-	let postLayout = `<div class="post-layout font">
+	let postLayout = `<div class="post-layout font radius shadow">
 			<div class="post-layout-header">
                 <div class="post-creator-info">
                     <h4 class="post-header" id="post">${post.created_by.name}</h4>
                     <h6 class="post-time">${post.created_date.time} &#x25cf; ${post.created_date.date}</h6>
                 </div>
                 <div class="dropdown" >
-                    <button onclick="openPostOptions()" class="dropbtn">
+                    <button onclick="openPostOptions(${post.id})" class="dropbtn">
                         <i class="fa fa-ellipsis-v"></i>
                     </button>
-                    <div id="postMenuDropdown" class="dropdown-content">
-                        <a onclick="deletePost(${post.id})">Delete Post</a>
-                        <a>Details</a>
+                    <div id="postMenuDropdown-${post.id}" class="dropdown-content">
+                        <a class="font" onclick="deletePost(${post.id})">Delete Post</a>
+                        <a class="font">Details</a>
                     </div>
 			    </div>
             </div>

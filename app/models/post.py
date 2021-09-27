@@ -28,7 +28,10 @@ def create_post(post):
     time = datetime.datetime.fromtimestamp(created_date)
     postDetails = {
         "id": id,
-        "created_by": user['name'],
+        "created_by": {
+            "name": user['name'],
+            "email": user['email']
+        },
         "created_date": {
             "date": time.strftime('%d %B %Y'),
             "time": time.strftime('%H:%M %p')

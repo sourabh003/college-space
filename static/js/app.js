@@ -1,7 +1,8 @@
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
-function openPostOptions() {
-	document.getElementById("postMenuDropdown").classList.toggle("show");
+function openPostOptions(id) {
+	let elementId = "postMenuDropdown-" + id;
+	document.getElementById(elementId).classList.toggle("show");
 }
 
 // Close the dropdown menu if the user clicks outside of it

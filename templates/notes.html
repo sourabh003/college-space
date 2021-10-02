@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block head %}
+<title>Notes | College-Space</title>
+<link
+	rel="stylesheet"
+	href="{{ url_for('static',  filename='css/index.css') }}"
+/>
+<link
+	rel="stylesheet"
+	href="{{ url_for('static',  filename='css/navbar.css') }}"
+/>
+<script src="{{ url_for('static',  filename='js/index.js') }}"></script>
+<script src="{{ url_for('static',  filename='js/app.js') }}"></script>
+
+{% endblock %} {% block body %}
+<div>Notes</div>
+{%endblock %}

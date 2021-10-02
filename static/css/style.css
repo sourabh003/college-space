@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 
 body {
 	margin: 0;
@@ -48,6 +48,7 @@ body {
 /* Dropdown button on hover & focus */
 .dropbtn:hover {
 	background-color: gainsboro;
+	color: #282832;
 }
 .dropbtn:focus {
 	background-color: white;
@@ -127,9 +128,6 @@ body {
 	width: 100%;
 }
 
-.post-creator-info {
-}
-
 .shadow {
 	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
 		rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
@@ -152,7 +150,7 @@ body {
 	padding-left: 20px;
 	padding-right: 20px;
 	border: solid 2px #282832;
-	border-radius: 10px;
+	border-radius: 5px;
 	transition: 300ms;
 	font-size: medium;
 	outline: none;
@@ -179,7 +177,7 @@ body {
 	padding-left: 20px;
 	padding-right: 20px;
 	border: solid 2px white;
-	border-radius: 10px;
+	border-radius: 5px;
 	transition: 300ms;
 	font-size: medium;
 	outline: none;
@@ -202,7 +200,7 @@ body {
 	padding-left: 20px;
 	padding-right: 20px;
 	border: solid 2px #1b676b;
-	border-radius: 10px;
+	border-radius: 5px;
 	transition: 300ms;
 	font-size: medium;
 	outline: none;
@@ -235,4 +233,93 @@ body {
 .line-break {
 	margin: 0;
 	border: solid 0.01px #dee6e9;
+}
+
+/* ========================= Snackbar ===========================*/
+
+#snackbar {
+	visibility: hidden;
+	min-width: 250px;
+	margin-left: -125px;
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	border-radius: 2px;
+	padding: 16px;
+	position: fixed;
+	z-index: 1;
+	left: 50%;
+	bottom: 30px;
+	font-size: 17px;
+}
+
+#snackbar.show {
+	visibility: visible;
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+	from {
+		bottom: 0;
+		opacity: 0;
+	}
+	to {
+		bottom: 30px;
+		opacity: 1;
+	}
+}
+
+@keyframes fadein {
+	from {
+		bottom: 0;
+		opacity: 0;
+	}
+	to {
+		bottom: 30px;
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes fadeout {
+	from {
+		bottom: 30px;
+		opacity: 1;
+	}
+	to {
+		bottom: 0;
+		opacity: 0;
+	}
+}
+
+@keyframes fadeout {
+	from {
+		bottom: 30px;
+		opacity: 1;
+	}
+	to {
+		bottom: 0;
+		opacity: 0;
+	}
+}
+
+#postOptionsModal {
+	top: 30%;
+}
+
+.postOptionButtons {
+	width: 100%;
+	background-color: white;
+	padding-bottom: 2vh;
+	padding-top: 2vh;
+	border: none;
+}
+
+.postOptionButtons:hover {
+	background-color: #fff8dc;
+	color: #282832;
+}
+
+.postOptionButtons:focus {
+	outline: none;
 }

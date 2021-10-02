@@ -1,111 +1,19 @@
-{% extends 'base.html' %} {% block head %}
+{% extends 'template.html' %} {% block head %}
 <title>Register | College-Space</title>
 <link
 	rel="stylesheet"
-	href="{{ url_for('static',  filename='css/login.css') }}"
+	href="{{ url_for('static',  filename='css/register.css') }}"
 />
 
-<script type="text/javascript">
-	const storage = window.localStorage;
+<script
+	type="text/javascript"
+	src="{{ url_for('static',  filename='js/toaster.js') }}"
+></script>
 
-	window.onload = function () {
-		let token = storage.getItem("token");
-		if (token !== null) {
-			window.location.href = "/";
-		}
-	};
-
-	// Method to validate inputs
-	const validate = (data) => {
-		if (
-			data.email === null ||
-			data.email === undefined ||
-			data.email === "" ||
-			data.password === null ||
-			data.password === undefined ||
-			data.password === "" ||
-			data.name === null ||
-			data.name === undefined ||
-			data.name === ""
-		) {
-			return false;
-		} else {
-			return true;
-		}
-	};
-
-	// Method for login
-	const register = () => {
-		loading(true);
-		$("#login-form").submit(function (e) {
-			e.preventDefault();
-		});
-		let data = {
-			name: $("#inputName").val(),
-			email: $("#inputEmail").val(),
-			password: $("#inputPassword").val(),
-		};
-
-		if (validate(data)) {
-			fetch("/api/register", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(data),
-			})
-				.then((response) => response.json())
-				.then((data) => {
-					$("#btn-submit").attr("disabled", true);
-					loading(false);
-					if (data.error) {
-						banner(data);
-						console.error("Error:", data);
-					} else {
-						banner(data);
-						storage.setItem("token", JSON.stringify(data.data.token));
-						setTimeout(() => {
-							window.location.href = "/";
-						}, 3000);
-					}
-				})
-				.catch((error) => {
-					loading(false);
-					banner({ success: false, message: error.message });
-					console.error("Error:", error);
-				});
-		} else {
-			loading(false);
-			banner({ success: false, message: "Fields Empty!" });
-		}
-	};
-
-	// Loader
-	const loading = (show) => {
-		if (show) {
-			$("#loader").css("display", "block");
-		} else {
-			$("#loader").css("display", "none");
-		}
-	};
-
-	// Banner
-	const banner = (data) => {
-		if (data.success) {
-			$("#banner").css("background-color", "#00aa8d");
-			$("#banner").html(`<b>${data.message}</b>`);
-			$("#banner").css("display", "block");
-		} else {
-			$("#banner").css("background-color", "#C62828");
-			$("#banner").html(`<b>${data.message}</b>`);
-			$("#banner").css("display", "block");
-		}
-
-		setTimeout(() => {
-			$("#banner").css("display", "none");
-		}, 2000);
-	};
-</script>
+<script
+	type="text/javascript"
+	src="{{ url_for('static',  filename='js/register.js') }}"
+></script>
 
 <style>
 	#main-content {
@@ -120,7 +28,7 @@
 </style>
 {% endblock %} {% block body %}
 <div id="main-content">
-	<div id="form-container" class="font">
+	<div class="font form-container">
 		<div id="form-header">Register to College-Space</div>
 		<br />
 		<form id="login-form">
@@ -141,9 +49,26 @@
 				<label for="exampleInputPassword1">Password</label>
 				<input type="password" class="form-control" id="inputPassword" />
 			</div>
+			<div class="form-group">
+				<label for="courseDropdown">Select Course</label>
+				<select id="courseDropdown">
+					<option class="dropdownOptions" value="Select Course">
+						<h3>Select Course</h3>
+					</option>
+					<option class="dropdownOptions" value="BCA"><h3>BCA</h3></option>
+					<option class="dropdownOptions" value="B-Tech">
+						<h3>B-Tech</h3>
+					</option>
+				</select>
+			</div>
 			<br />
-			<button id="btn-submit" onclick="register()" class="btn btn-primary">
-				Register
+			<button
+				id="btn-submit"
+				type="button"
+				onclick="register()"
+				class="btn btn-primary"
+			>
+				Register &nbsp;<i class="fas fa-arrow-right"></i>
 			</button>
 			<hr />
 			<center>
@@ -163,5 +88,6 @@
 	&nbsp;<b>Loading...</b>
 </div>
 
+<div id="snackbar" class="font"></div>
 <div id="banner"></div>
 {%endblock %}

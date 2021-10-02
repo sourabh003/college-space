@@ -128,3 +128,16 @@
 	color: gray;
 	/* font-family: sans-serif; */
 }
+
+#loader {
+	position: absolute;
+	padding: 10px;
+	border-radius: 50%;
+	z-index: 20000;
+	background-color: black;
+	top: 1;
+}
+
+#loader > img {
+	border-radius: 50%;
+}

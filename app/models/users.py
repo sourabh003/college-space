@@ -9,6 +9,7 @@ config = ""
 with open("configs/config.json") as config_file:
     config = json.load(config_file)
 
+
 def create_user(user):
     mydb = connect_to_database()
     mycursor = mydb.cursor()
@@ -16,30 +17,39 @@ def create_user(user):
     id = uniqueID()
     created_date = datetime.datetime.now().timestamp()
 
-    sql = "INSERT INTO users (id, name, email, password, created_date) VALUES (%s, %s, %s, %s, %s)"
-    val = (id, user['name'], user['email'], user['password'], created_date)
-    mycursor.execute(sql, val)
-    mydb.commit()
-
-    if(mycursor.rowcount < 1):
-        return jsonify(
-            success=False,
-            message="User Sign up Failed",
-            data=None
-        )
-    userData = {
-        "id":id,
-        "name":user['name'],
-        "email":user['email'],
-    }
-    token = jwt.encode(userData, config['jwt_secret'], algorithm="HS256")
-    return jsonify(
-        success=True,
-        message="User Sign up Success",
-        data={
-            "token": token
+    try:
+        sql = "INSERT INTO users (id, name, email, password, course, created_date) VALUES (%s, %s, %s, %s, %s, %s)"
+        val = (id, user['name'], user['email'],
+               user['password'], user['course'], created_date)
+        mycursor.execute(sql, val)
+        mydb.commit()
+        if(mycursor.rowcount < 1):
+            return jsonify(
+                success=False,
+                message="User Sign up Failed",
+                data=None
+            )
+        userData = {
+            "id": id,
+            "name": user['name'],
+            "email": user['email'],
+            "course": user['course']
         }
-    )
+        token = jwt.encode(userData, config['jwt_secret'], algorithm="HS256")
+        return jsonify(
+            success=True,
+            message="User Sign up Success",
+            data={
+                "token": token
+            }
+        )
+    except Exception as e:
+        return jsonify(
+            success=True,
+            message="User Sign up Failed",
+            data=e
+        )
+
 
 def login_user(user):
     mydb = connect_to_database()
@@ -57,34 +67,37 @@ def login_user(user):
     else:
         if(user['password'] == result[0][3]):
             userData = {
-                "id":result[0][0],
-                "name":result[0][1],
-                "email":result[0][2],
+                "id": result[0][0],
+                "name": result[0][1],
+                "email": result[0][2],
+                "course": result[0][4],
             }
-            token = jwt.encode(userData, config['jwt_secret'], algorithm="HS256")
+            token = jwt.encode(
+                userData, config['jwt_secret'], algorithm="HS256")
             return jsonify(
-                    error=False,
-                    data={"token":token},
-                    message="Login Success"
-                )
-        else: 
+                error=False,
+                data={"token": token},
+                message="Login Success"
+            )
+        else:
             return jsonify(
                 error=True,
                 data=None,
                 message="invalid Password"
             )
 
+
 def get_user(user):
-    print(f'Getting User Info : {user}')
     mydb = connect_to_database()
     mycursor = mydb.cursor()
 
     sql = f"SELECT * FROM users WHERE email ='{user['email']}'"
     mycursor.execute(sql)
-    result = mycursor.fetchall()  
+    result = mycursor.fetchall()
     userData = {
-            "id":result[0][0],
-            "name":result[0][1],
-            "email":result[0][2],
-        }
+        "id": result[0][0],
+        "name": result[0][1],
+        "email": result[0][2],
+        "course": result[0][4],
+    }
     return userData

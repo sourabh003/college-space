@@ -80,11 +80,12 @@
 	background-color: #c3362b;
 	color: white;
 	border-radius: 50px;
+	border: none;
 	transition: 300ms;
+	display: none;
 	padding: 0;
 	padding-left: 10px;
 	padding-right: 10px;
-	display: none;
 	font-size: medium;
 	outline: none;
 }

@@ -4,28 +4,29 @@ import app.controllers.users as user_controller
 from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
-# ===================== Route for index page ==================== #
+# ===================== Route for pages ==================== #
 
 
 @app.route("/")
 def home():
     return render_template('index.html')
 
-# ===================== Route for Login page ==================== #
-
 
 @app.route("/login")
 def loginPage():
     return render_template('login.html')
-
-# ===================== Route for Register page ==================== #
 
 
 @app.route("/register")
 def registerPage():
     return render_template('register.html')
 
-# ===================== API for User Login ==================== #
+
+@app.route("/notes")
+def notesPage():
+    return render_template('notes.html')
+
+# ===================== APIs for User Login ==================== #
 
 
 @app.route('/api/login', methods=['POST'])

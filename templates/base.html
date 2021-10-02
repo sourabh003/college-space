@@ -22,9 +22,120 @@
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
 			rel="stylesheet"
 		/>
+		<link
+			rel="stylesheet"
+			href="{{ url_for('static',  filename='css/navbar.css') }}"
+		/>
+
+		<script src="{{ url_for('static',  filename='js/main.js') }}"></script>
+		<script src="{{ url_for('static',  filename='js/toaster.js') }}"></script>
 		{% block head %}{% endblock %}
 	</head>
 	<body>
+		<!-- Navbar Start -->
+		<div id="navigation-bar" class="navbar shadow">
+			<div class="header_contents">
+				<img
+					src="{{ url_for('static',  filename='images/favicon.png') }}"
+					alt=""
+					width="30"
+					height="30"
+				/>
+				&nbsp;&nbsp;
+				<h4 class="header text-light font">College-Space</h4>
+			</div>
+
+			<div id="nav-section" class="header_contents">
+				<a href="/" class="btn font">Home</a>
+				<a href="" class="btn font">Posts</a>
+				<a href="/notes" class="btn font">Notes</a>
+				<a href="" class="btn font">About</a>
+			</div>
+
+			<div id="account-section" class="header_contents">
+				<div id="profile-section">
+					<img
+						src="{{ url_for('static',  filename='images/user_icon.png') }}"
+						alt=""
+						id="profile-section-image"
+						width="30"
+						height="30"
+					/>
+					&nbsp;&nbsp;
+					<h5 id="user-name" class="header font">Loading...</h5>
+					&nbsp;&nbsp;
+					<button
+						id="btn-logout"
+						data-toggle="modal"
+						data-target="#logoutModal"
+						class="btn font"
+					>
+						<h5>Logout</h5>
+					</button>
+				</div>
+			</div>
+		</div>
+		<!-- Navbar Ends -->
+		<!-- Logout Modal Starts -->
+		<div
+			class="modal fade"
+			id="logoutModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="logoutModal"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<center>
+							<h4 class="modal-title font text-light" id="myModalLabel">
+								You'll be logged out
+							</h4>
+						</center>
+					</div>
+					<div class="modal-body">
+						<img
+							src="{{ url_for('static',  filename='images/see-you.jpg') }}"
+							alt=""
+							id="logout-image"
+						/>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="font custom-button2"
+							data-dismiss="modal"
+						>
+							Cancel
+						</button>
+						<button
+							id="btn_upload"
+							type="button"
+							class="custom-button font text-light"
+							onclick="logout()"
+						>
+							Logout
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Logout Modal Ends -->
+
+		<!-- Post Options Modal -->
+		<div
+			class="modal fade"
+			id="postOptionsModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="postOptionsModal"
+			aria-hidden="true"
+		></div>
+
+		<!-- Post Options Modal Ends -->
+
 		{% block body %}{% endblock %}
+		<div id="snackbar" class="font radius shadow"></div>
 	</body>
 </html>

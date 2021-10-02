@@ -58,11 +58,10 @@ def get_posts():
     for post in results:
         time = datetime.datetime.fromtimestamp(float(post[2]))
         user = users_model.get_user({"email": post[1]})
-        print(f'Response User Info : {user}')
         posts.append({
             "id": post[0],
             "created_by": {
-                "user_id": post[1],
+                "email": post[1],
                 "name": user['name']
             },
             "created_date": {

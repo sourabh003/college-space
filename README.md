@@ -1,6 +1,7 @@
 # college-space
 
 ## Steps to get started
+_If you cannot see some images here, please refresh the page or click image texts to see the images._
 
 ### Database Setup
 

@@ -10,10 +10,9 @@ def create_post(post):
     mycursor = mydb.cursor()
 
     id = uniqueID()
-    created_date = datetime.datetime.now().timestamp()
 
     sql = "INSERT INTO posts (id, created_by, created_date, data) VALUES (%s, %s, %s, %s)"
-    val = (id, post['created_by'], created_date, post['data'])
+    val = (id, post['created_by'], post['created_date'], post['data'])
     mycursor.execute(sql, val)
     mydb.commit()
 
@@ -25,17 +24,13 @@ def create_post(post):
         )
 
     user = users_model.get_user({"email": post['created_by']})
-    time = datetime.datetime.fromtimestamp(created_date)
     postDetails = {
         "id": id,
         "created_by": {
             "name": user['name'],
             "email": user['email']
         },
-        "created_date": {
-            "date": time.strftime('%d %B %Y'),
-            "time": time.strftime('%H:%M %p')
-        },
+        "created_date": post['created_date'],
         "data": post['data']
     }
     return jsonify(
@@ -56,7 +51,6 @@ def get_posts():
     results = mycursor.fetchall()
     posts = []
     for post in results:
-        time = datetime.datetime.fromtimestamp(float(post[2]))
         user = users_model.get_user({"email": post[1]})
         posts.append({
             "id": post[0],
@@ -64,14 +58,38 @@ def get_posts():
                 "email": post[1],
                 "name": user['name']
             },
-            "created_date": {
-                "date": time.strftime('%d %B %Y'),
-                "time": time.strftime('%H:%M %p')
-            },
+            "created_date": post[2],
             "data": post[3],
         })
     return jsonify(
         error=False,
         data={"posts": posts},
         message="Fetch Posts Success"
+    )
+
+
+def get_post_count(data):
+    mydb = connect_to_database()
+    mycursor = mydb.cursor()
+    sql = f"SELECT COUNT(created_by) FROM posts WHERE created_by='{data['email']}';"
+    mycursor.execute(sql)
+    results = mycursor.fetchall()
+    return jsonify(
+        error=False,
+        data={"count": results[0][0]},
+        message="Fetch Post Count Success"
+    )
+
+
+def delete_post(data):
+    mydb = connect_to_database()
+    mycursor = mydb.cursor()
+    sql = f"delete from posts where id='{data['id']}';"
+    mycursor.execute(sql)
+    mydb.commit()
+    print(mycursor)
+    return jsonify(
+        error=False,
+        data=None,
+        message="Post Deleted"
     )

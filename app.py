@@ -65,6 +65,22 @@ def createPostAPI():
 def getPostsAPI():
     return posts_controller.get_posts()
 
+# ===================== API for Fetch Post Count ==================== #
+
+
+@app.route('/api/post/count', methods=['POST'])
+def getPostCount():
+    data = request.get_json()
+    return posts_controller.get_post_count(data)
+
+# ===================== API for Delete all posts ==================== #
+
+
+@app.route('/api/post/delete', methods=['POST'])
+def deletePost():
+    data = request.get_json()
+    return posts_controller.delete_post(data)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

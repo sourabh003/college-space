@@ -1,14 +1,35 @@
 const createPost = (data) => {};
 
 $("#body-block").ready(function () {
-	loadPage();
+	initData();
 });
 
-const loadPage = () => {
+const initData = () => {
 	let user = JSON.parse(storage.getItem("user"));
 	getPosts();
 	$("#profile-info-username").html(user.name);
 	$("#profile-info-user-position").html(user.course);
+	fetchProfileInfo();
+};
+
+const fetchProfileInfo = () => {
+	let user = JSON.parse(storage.getItem("user"));
+	fetch("/api/post/count", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ email: user.email }),
+	})
+		.then((response) => response.json())
+		.then((data) => {
+			console.log("Success:", data);
+			$("#uploaded-posts-counter").html(data.data.count);
+		})
+		.catch((error) => {
+			console.error("Error get post count:", error);
+			toaster("Get Post Error");
+		});
 };
 
 const getPosts = () => {
@@ -41,11 +62,12 @@ const addPostInLayout = (post, prepend) => {
 	if (user.email === post.created_by.email) {
 		isDeleteAble = true;
 	}
-	let postLayout = `<div class="post-layout font radius shadow">
+	let created_date = getGetCreatedTime(new Date(post.created_date));
+	let postLayout = `<div id="post-${post.id}" class="post-layout font radius shadow">
 			<div class="post-layout-header">
                 <div class="post-creator-info">
                     <h4 class="post-header" id="post">${post.created_by.name}</h4>
-                    <h6 class="post-time">${post.created_date.time} &#x25cf; ${post.created_date.date}</h6>
+                    <h6 class="post-time">${created_date.time} &#x25cf; ${created_date.date}</h6>
                 </div>
                 <button onclick="openPostOptions(${isDeleteAble}, '${post.id}')" class="dropbtn">
                     <i class="fa fa-ellipsis-v"></i>
@@ -60,6 +82,7 @@ const addPostInLayout = (post, prepend) => {
 	} else {
 		$("#activities-section").append(postLayout);
 	}
+	fetchProfileInfo();
 };
 
 const reloadPosts = () => {
@@ -68,14 +91,16 @@ const reloadPosts = () => {
 };
 
 const uploadPost = () => {
+	let user = JSON.parse(storage.getItem("user"));
 	let content = $("textarea#post_content").val();
 	if (content === "") {
 		toaster("No Content!");
 	} else {
-		let user = JSON.parse(storage.getItem("user"));
+		let created_date = new Date().getTime();
 		let postData = {
 			created_by: user.email,
 			data: content,
+			created_date: created_date,
 		};
 		fetch("/api/post/create", {
 			method: "POST",
@@ -99,7 +124,7 @@ const uploadPost = () => {
 	}
 };
 
-const openPostOptions = (isDeleteAble, postID) => {
+const openPostOptions = (isDeleteAble, postId) => {
 	let postOptionsContents;
 	if (isDeleteAble) {
 		postOptionsContents = `<div class="modal-dialog">
@@ -107,7 +132,7 @@ const openPostOptions = (isDeleteAble, postID) => {
 	            <div class="modal-body">
 	                <button class="postOptionButtons">Details</button>
 	                <hr class="line-break" />
-	                <button class="postOptionButtons">Delete Post</button>
+	                <button class="postOptionButtons" onclick="deletePost('${postId}')">Delete Post</button>
 	            </div>
 	        </div>
 	    </div>`;
@@ -115,7 +140,7 @@ const openPostOptions = (isDeleteAble, postID) => {
 		postOptionsContents = `<div class="modal-dialog">
 	        <div class="modal-content">
 	            <div class="modal-body">
-	                <button type="button" class="btn postOptionButtons" onclick="deletePost()"><i class="fas fa-info-circle"></i>&nbsp;&nbsp;&nbsp;Details</button>
+	                <button type="button" class="btn postOptionButtons"><i class="fas fa-info-circle"></i>&nbsp;&nbsp;&nbsp;Details</button>
 	            </div>
 	        </div>
 	    </div>`;
@@ -124,6 +149,49 @@ const openPostOptions = (isDeleteAble, postID) => {
 	$("#postOptionsModal").modal("show");
 };
 
-const deletePost = () => {
-	alert("post");
+const deletePost = (postId) => {
+	fetch("/api/post/delete", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ id: postId }),
+	})
+		.then((response) => response.json())
+		.then((data) => {
+			console.log("Success:", data);
+			$("#postOptionsModal").modal("hide");
+			toaster("Post Deleted");
+			let postView = `#post-${postId}`;
+			$(postView).remove();
+			fetchProfileInfo();
+		})
+		.catch((error) => {
+			console.error("Error:", error);
+			toaster(error.message);
+		});
+};
+
+const getGetCreatedTime = (created_date) => {
+	var strArray = [
+		"Jan",
+		"Feb",
+		"Mar",
+		"Apr",
+		"May",
+		"Jun",
+		"Jul",
+		"Aug",
+		"Sep",
+		"Oct",
+		"Nov",
+		"Dec",
+	];
+	var d = created_date.getDate();
+	var m = strArray[created_date.getMonth()];
+	var y = created_date.getFullYear();
+	return {
+		time: created_date.toLocaleTimeString(),
+		date: (d <= 9 ? "0" + d : d) + "-" + m + "-" + y,
+	};
 };

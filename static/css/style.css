@@ -11,6 +11,10 @@ body {
 	font-weight: bolder;
 }
 
+.half-width {
+	width: 50%;
+}
+
 /* width */
 ::-webkit-scrollbar {
 	width: 5px;
@@ -137,6 +141,13 @@ body {
 	border-radius: 5px;
 }
 
+.card {
+	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+		rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+	border-radius: 5px;
+	background-color: white;
+}
+
 .flexbox {
 	display: flex;
 	align-items: center;
@@ -233,6 +244,10 @@ body {
 .line-break {
 	margin: 0;
 	border: solid 0.01px #dee6e9;
+}
+
+.space-between {
+	justify-content: space-between;
 }
 
 /* ========================= Snackbar ===========================*/

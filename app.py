@@ -1,6 +1,8 @@
 import app.controllers.post as posts_controller
 import app.controllers.auth as auth_controller
 import app.controllers.users as user_controller
+import app.controllers.subjects as subjects_controller
+import app.controllers.courses as courses_controller
 from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
@@ -80,6 +82,21 @@ def getPostCount():
 def deletePost():
     data = request.get_json()
     return posts_controller.delete_post(data)
+
+# ===================== API to Get All Subjects ==================== #
+
+
+@app.route('/api/subject/get_all', methods=['GET'])
+def getAllSubjects():
+    return subjects_controller.getAllSubjects()
+
+
+# ===================== API to Get All Courses ==================== #
+
+
+@app.route('/api/course/get_all', methods=['GET'])
+def getAllCourses():
+    return courses_controller.getAllCourses()
 
 
 if __name__ == "__main__":

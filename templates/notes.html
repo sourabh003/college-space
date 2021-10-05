@@ -23,14 +23,8 @@
 				<div class="half-width">
 					<h5 class="font">Course</h5>
 					<select class="custom-dropdown" id="courseDropdown">
-						<option class="dropdownOptions" value="Select Course">
+						<option class="dropdownOptions" value="null">
 							<h3 class="font">Select Course</h3>
-						</option>
-						<option class="dropdownOptions" value="BCA">
-							<h3 class="font">BCA</h3>
-						</option>
-						<option class="dropdownOptions" value="B-Tech">
-							<h3 class="font">B-Tech</h3>
 						</option>
 					</select>
 				</div>
@@ -38,19 +32,17 @@
 				<div class="half-width">
 					<h5 class="font">Subject</h5>
 					<select class="custom-dropdown" id="subjectDropdown">
-						<option class="dropdownOptions" value="Select Course">
+						<option class="dropdownOptions" value="null">
 							<h3 class="font">Select Subject</h3>
-						</option>
-						<option class="dropdownOptions" value="BCA">
-							<h3 class="font">C++</h3>
-						</option>
-						<option class="dropdownOptions" value="B-Tech">
-							<h3 class="font">C</h3>
 						</option>
 					</select>
 				</div>
 				&nbsp; &nbsp;
-				<button id="btn-search" class="btn custom-button">
+				<button
+					id="btn-search"
+					onclick="searchSubject();"
+					class="btn custom-button"
+				>
 					<i class="fas fa-search"></i>
 				</button>
 			</div>

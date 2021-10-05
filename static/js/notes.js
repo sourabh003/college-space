@@ -2,6 +2,14 @@ $("#main-block").ready(function () {
 	loadSelectList();
 });
 
+const showLoader = (show) => {
+	if (show) {
+		$("#loader").css("display", "block");
+	} else {
+		$("#loader").css("display", "none");
+	}
+};
+
 const loadSelectList = () => {
 	fetch("/api/course/get_all", {
 		method: "GET",
@@ -60,12 +68,16 @@ const fillCourseList = (courses) => {
 };
 
 const searchSubject = () => {
+	showLoader(true);
 	let selectedCourse = $("#courseDropdown option:selected").val();
 	let selectedSubject = $("#subjectDropdown option:selected").val();
 
-	if (selectedCourse === "null" || selectedSubject === "null") {
-		toaster("Please select valid subject and course");
-	} else {
-		toaster(selectedCourse + " : " + selectedSubject);
-	}
+	setTimeout(() => {
+		showLoader(false);
+		if (selectedCourse === "null" || selectedSubject === "null") {
+			toaster("Please select valid subject and course");
+		} else {
+			toaster(selectedCourse + " : " + selectedSubject);
+		}
+	}, 1000);
 };

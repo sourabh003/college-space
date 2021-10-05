@@ -338,3 +338,7 @@ body {
 .postOptionButtons:focus {
 	outline: none;
 }
+
+.loader-container {
+	padding: 1vh;
+}

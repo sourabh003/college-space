@@ -64,3 +64,7 @@ select {
 #btn-search {
 	padding: 1.3vh;
 }
+
+#loader {
+	display: none;
+}

@@ -16,33 +16,35 @@
 
 {% endblock %} {% block body %}
 <div id="main-block">
-	<div id="left-block" class="corner-blocks"></div>
-	<div class="center-block">
+	<div id="left-block" class="corner-blocks">
 		<div class="card">
-			<div id="view-notes-filter" class="flexbox">
-				<div class="half-width">
-					<h5 class="font">Course</h5>
+			<div id="view-notes-filter">
+				<center><h3 class="font">Search Notes</h3></center>
+				<hr class="line" />
+				<div>
+					<h5 class="font">Select Course</h5>
 					<select class="custom-dropdown" id="courseDropdown">
 						<option class="dropdownOptions" value="null">
-							<h3 class="font">Select Course</h3>
+							<h3 class="font">All</h3>
 						</option>
 					</select>
 				</div>
-				&nbsp; &nbsp;
-				<div class="half-width">
-					<h5 class="font">Subject</h5>
+				&nbsp;
+				<div>
+					<h5 class="font">Select Subject</h5>
 					<select class="custom-dropdown" id="subjectDropdown">
 						<option class="dropdownOptions" value="null">
-							<h3 class="font">Select Subject</h3>
+							<h3 class="font">All</h3>
 						</option>
 					</select>
 				</div>
-				&nbsp; &nbsp;
+				&nbsp;
 				<button
 					id="btn-search"
 					onclick="searchSubject();"
 					class="btn custom-button"
 				>
+					Search&nbsp;
 					<i class="fas fa-search"></i>
 				</button>
 			</div>
@@ -57,8 +59,41 @@
 				</div>
 			</center>
 		</div>
-		<hr class="line" />
 	</div>
-	<div id="right-block" class="corner-blocks"></div>
+	<div class="center-block"></div>
+	<div id="right-block" class="corner-blocks">
+		<div class="card" id="notesUploadSection">
+			<center><h3 class="font">Upload Notes</h3></center>
+			<hr class="line" />
+			<div>
+				<h5 class="font">Select Course</h5>
+				<select class="custom-dropdown" id="uploadDropdownCourse">
+					<option class="dropdownOptions" value="null">
+						<h3 class="font">Select</h3>
+					</option>
+				</select>
+			</div>
+			&nbsp;
+			<div>
+				<h5 class="font">Select Subject</h5>
+				<select class="custom-dropdown" id="uploadDropdownSubject">
+					<option class="dropdownOptions" value="null">
+						<h3 class="font">Select</h3>
+					</option>
+				</select>
+			</div>
+			&nbsp;
+			<div>
+				<h5 class="font">Select File</h5>
+				<form id="uploadForm" action="upload.php" method="POST">
+					<input type="file" multiple />
+					<p class="font">Drag Files here or Click</p>
+				</form>
+				<button id="uploadButton" class="font" type="submit">
+					<i class="fas fa-upload"></i> Upload
+				</button>
+			</div>
+		</div>
+	</div>
 </div>
 {%endblock %}

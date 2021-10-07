@@ -54,6 +54,7 @@ const fillSubjectsList = (subjects) => {
             <h3 class="font">${subject.name}</h3>
 		</option>`;
 		$("#subjectDropdown").append(subjectItem);
+		$("#uploadDropdownSubject").append(subjectItem);
 	});
 };
 
@@ -64,6 +65,7 @@ const fillCourseList = (courses) => {
             <h3 class="font">${course.name}</h3>
 		</option>`;
 		$("#courseDropdown").append(courseItem);
+		$("#uploadDropdownCourse").append(courseItem);
 	});
 };
 
@@ -81,3 +83,9 @@ const searchSubject = () => {
 		}
 	}, 1000);
 };
+
+$(document).ready(function () {
+	$("form input").change(function () {
+		$("form p").text(this.files.length + " file(s) selected");
+	});
+});

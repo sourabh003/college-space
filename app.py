@@ -98,6 +98,14 @@ def getAllSubjects():
 def getAllCourses():
     return courses_controller.getAllCourses()
 
+# ===================== API to Get Particular Course ==================== #
+
+
+@app.route('/api/subject/get', methods=['POST'])
+def getSubjectByCourseID():
+    data = request.get_json()
+    return subjects_controller.getSubjectByCourseID(data)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

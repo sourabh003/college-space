@@ -23,7 +23,11 @@
 				<hr class="line" />
 				<div>
 					<h5 class="font">Select Course</h5>
-					<select class="custom-dropdown" id="courseDropdown">
+					<select
+						onchange="loadSubjectList(true)"
+						class="custom-dropdown"
+						id="courseDropdown"
+					>
 						<option class="dropdownOptions" value="null">
 							<h3 class="font">All</h3>
 						</option>
@@ -67,7 +71,11 @@
 			<hr class="line" />
 			<div>
 				<h5 class="font">Select Course</h5>
-				<select class="custom-dropdown" id="uploadDropdownCourse">
+				<select
+					onchange="loadSubjectList(false)"
+					class="custom-dropdown"
+					id="uploadDropdownCourse"
+				>
 					<option class="dropdownOptions" value="null">
 						<h3 class="font">Select Course</h3>
 					</option>

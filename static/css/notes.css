@@ -133,3 +133,8 @@ form button:hover {
 form button:active {
 	border: 0;
 }
+.selectedFileItems {
+	padding: 1vh;
+	margin: 0.6vh;
+	justify-content: space-between;
+}

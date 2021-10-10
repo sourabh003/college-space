@@ -86,6 +86,38 @@ const searchSubject = () => {
 
 $(document).ready(function () {
 	$("form input").change(function () {
-		$("form p").text(this.files.length + " file(s) selected");
+		Object.keys(this.files).forEach((key) => {
+			console.log(key);
+			let file = this.files[key];
+			if (file.type == "application/pdf") {
+				console.log(file);
+				let item = `
+                <div id="selectedFileItem-${key}" class="card flexbox selectedFileItems">
+                    <h5 class="font">
+                        <i class="fa fa-file-pdf"></i>
+                        &nbsp;
+                        ${file.name}
+                    </h5>
+                    &nbsp;&nbsp;
+                    <i class="fa fa-minus-circle" onclick="removeSelectedFile('${key}')"></i>
+                </div>`;
+				$("#selectedFiles").append(item);
+			}
+		});
 	});
 });
+
+const removeSelectedFile = (key) => {
+	let itemID = `#selectedFileItem-${key}`;
+	$(itemID).remove();
+};
+
+const uploadNote = () => {
+	let selectedCourse = $("#uploadDropdownCourse option:selected").val();
+	let selectedSubject = $("#uploadDropdownSubject option:selected").val();
+	if (selectedCourse == "null" || selectedSubject == "null") {
+		toaster("Please select course and subject");
+	} else {
+		toaster("uploading");
+	}
+};

@@ -69,7 +69,7 @@
 				<h5 class="font">Select Course</h5>
 				<select class="custom-dropdown" id="uploadDropdownCourse">
 					<option class="dropdownOptions" value="null">
-						<h3 class="font">Select</h3>
+						<h3 class="font">Select Course</h3>
 					</option>
 				</select>
 			</div>
@@ -78,7 +78,7 @@
 				<h5 class="font">Select Subject</h5>
 				<select class="custom-dropdown" id="uploadDropdownSubject">
 					<option class="dropdownOptions" value="null">
-						<h3 class="font">Select</h3>
+						<h3 class="font">Select Subject</h3>
 					</option>
 				</select>
 			</div>
@@ -87,9 +87,16 @@
 				<h5 class="font">Select File</h5>
 				<form id="uploadForm" action="upload.php" method="POST">
 					<input type="file" multiple />
-					<p class="font">Drag Files here or Click</p>
+					<p class="font">Drag Files here or Click (Only PDFs)</p>
 				</form>
-				<button id="uploadButton" class="font" type="submit">
+				<div id="selectedFiles"></div>
+				<br />
+				<button
+					id="uploadButton"
+					class="font"
+					type="submit"
+					onclick="uploadNote()"
+				>
 					<i class="fas fa-upload"></i> Upload
 				</button>
 			</div>

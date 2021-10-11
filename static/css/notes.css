@@ -138,3 +138,17 @@ form button:active {
 	margin: 0.6vh;
 	justify-content: space-between;
 }
+
+.progress-container {
+	margin: 0;
+	padding-left: 1vh;
+	align-items: center;
+	display: none;
+	padding-right: 1vh;
+}
+
+.file-upload-progress {
+	background-color: #0c5645;
+	padding: 2px;
+	height: 2px;
+}

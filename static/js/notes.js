@@ -115,15 +115,29 @@ $(document).ready(function () {
 			let file = this.files[key];
 			if (file.type == "application/pdf") {
 				let item = `
-                <div id="selectedFileItem-${id}" class="card flexbox selectedFileItems">
-                    <h5 class="font">
-                        <i class="fa fa-file-pdf"></i>
-                        &nbsp;
-                        ${file.name}
-                    </h5>
-                    &nbsp;&nbsp;
-                    <i class="fa fa-minus-circle" onclick="removeSelectedFile('${id}')"></i>
-                </div>`;
+                <div class="card">
+						<div id="selectedFileItem-${id}" class="flexbox selectedFileItems">
+							<h5 class="font">
+								<i class="fa fa-file-pdf"></i>
+								&nbsp; 
+                                ${file.name}
+							</h5>
+							&nbsp;&nbsp;
+							<i
+								id="file-item-remove-button-${id}"
+								onclick="removeSelectedFile('${id}')"
+								class="fa fa-minus-circle"
+							></i>
+						</div>
+						<div id="progress-container-box-${id}" class="progress-container">
+							<h5 class="font" id="file-upload-progress-counter-${id}">0%</h5>
+							&nbsp;&nbsp;
+							<div
+								id="file-upload-progress-bar-${id}"
+								class="file-upload-progress"
+							></div>
+						</div>
+					</div>`;
 				$("#selectedFiles").append(item);
 				selectedFiles[id] = file;
 			}
@@ -138,13 +152,35 @@ const removeSelectedFile = (id) => {
 };
 
 const uploadNote = () => {
-	let selectedCourse = $("#uploadDropdownCourse option:selected").val();
-	let selectedSubject = $("#uploadDropdownSubject option:selected").val();
-	// if (selectedCourse == "null" || selectedSubject == "null") {
-	// 	toaster("Please select course and subject");
-	// } else {
+	// let selectedCourse = $("#uploadDropdownCourse option:selected").val();
+	// let selectedSubject = $("#uploadDropdownSubject option:selected").val();
+	// // if (selectedCourse == "null" || selectedSubject == "null") {
+	// // 	toaster("Please select course and subject");
+	// // } else {
 	if (Object.keys(selectedFiles).length === 0) {
 		toaster("No Files Selected!");
+	} else {
+		Object.keys(selectedFiles).forEach((key) => {
+			let selectedFile = selectedFiles[key];
+
+			let progress = 0;
+			$("#progress-container-box-" + key).css("display", "flex");
+			let loadProgress = setInterval(() => {
+				if (progress < 100) {
+					console.log(progress);
+					progress++;
+					$("#file-upload-progress-bar-" + key).css("width", `${progress}%`);
+					$("#file-upload-progress-counter-" + key).html(`${progress}%`);
+				} else {
+					clearInterval(loadProgress);
+					console.log("Loading finished");
+					$("#file-item-remove-button-" + key).removeClass("fa-minus-circle");
+					$("#file-item-remove-button-" + key).addClass("fa-check-circle");
+					$("#file-item-remove-button-" + key).css("color", "green");
+					$("#file-item-remove-button-" + key).removeAttr("onclick");
+				}
+			}, 10);
+		});
 	}
-	// }
+	// // }
 };

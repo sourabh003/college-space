@@ -152,3 +152,7 @@ form button:active {
 	padding: 2px;
 	height: 2px;
 }
+
+.searched-note {
+	padding: 1vh;
+}

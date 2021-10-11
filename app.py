@@ -3,6 +3,7 @@ import app.controllers.auth as auth_controller
 import app.controllers.users as user_controller
 import app.controllers.subjects as subjects_controller
 import app.controllers.courses as courses_controller
+import app.controllers.notes as notes_controller
 from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
@@ -105,6 +106,14 @@ def getAllCourses():
 def getSubjectByCourseID():
     data = request.get_json()
     return subjects_controller.getSubjectByCourseID(data)
+
+# ===================== API to Save Notes Information ==================== #
+
+
+@app.route('/api/notes/save', methods=['POST'])
+def saveNotes():
+    data = request.get_json()
+    return notes_controller.save_notes(data)
 
 
 if __name__ == "__main__":

@@ -27,8 +27,17 @@
 			href="{{ url_for('static',  filename='css/navbar.css') }}"
 		/>
 
+		<script src="https://www.gstatic.com/firebasejs/5.0.1/firebase.js"></script>
+
+		<!-- <script type="module">
+			// Set the configuration for your app
+			// TODO: Replace with your app's config object
+			
+		</script> -->
+
 		<script src="{{ url_for('static',  filename='js/main.js') }}"></script>
 		<script src="{{ url_for('static',  filename='js/toaster.js') }}"></script>
+
 		{% block head %}{% endblock %}
 	</head>
 	<body>

@@ -115,7 +115,7 @@ $(document).ready(function () {
 			let file = this.files[key];
 			if (file.type == "application/pdf") {
 				let item = `
-                <div class="card">
+                <div id="selectedFileItemContainer-${id}" class="card">
 						<div id="selectedFileItem-${id}" class="flexbox selectedFileItems">
 							<h5 class="font">
 								<i class="fa fa-file-pdf"></i>
@@ -142,6 +142,7 @@ $(document).ready(function () {
 				selectedFiles[id] = file;
 			}
 		});
+		console.log({ files: selectedFiles });
 	});
 });
 
@@ -152,6 +153,7 @@ const removeSelectedFile = (id) => {
 };
 
 const uploadNote = () => {
+	let user = JSON.parse(storage.getItem("user"));
 	let selectedCourse = $("#uploadDropdownCourse option:selected").val();
 	let selectedSubject = $("#uploadDropdownSubject option:selected").val();
 	if (selectedCourse == "null" || selectedSubject == "null") {
@@ -160,29 +162,106 @@ const uploadNote = () => {
 		if (Object.keys(selectedFiles).length === 0) {
 			toaster("No Files Selected!");
 		} else {
+			let uploadCount = 0;
 			Object.keys(selectedFiles).forEach((key) => {
+				let time = new Date().getTime();
+				let fileID = "notes-" + time;
 				let selectedFile = selectedFiles[key];
-
-				let progress = 0;
 				$("#file-item-remove-button-" + key).css("display", "none");
 				$("#progress-container-box-" + key).css("display", "flex");
-				let loadProgress = setInterval(() => {
-					if (progress < 100) {
-						console.log(progress);
-						progress++;
+				console.log("Uploading " + selectedFile.name);
+				let uploadTask = firebaseNotesBucket.child(fileID).put(selectedFile);
+				uploadTask.on(
+					"state_changed",
+					(snapshot) => {
+						let progress = Math.round(
+							(snapshot.bytesTransferred / snapshot.totalBytes) * 100
+						);
+
 						$("#file-upload-progress-bar-" + key).css("width", `${progress}%`);
 						$("#file-upload-progress-counter-" + key).html(`${progress}%`);
-					} else {
-						clearInterval(loadProgress);
-						console.log("Loading finished");
-						$("#file-item-remove-button-" + key).css("display", "block");
-						$("#file-item-remove-button-" + key).removeClass("fa-minus-circle");
-						$("#file-item-remove-button-" + key).addClass("fa-check-circle");
-						$("#file-item-remove-button-" + key).css("color", "green");
-						$("#file-item-remove-button-" + key).removeAttr("onclick");
+
+						switch (snapshot.state) {
+							case firebase.storage.TaskState.PAUSED: // or 'paused'
+								console.log("Upload is paused");
+								break;
+							case firebase.storage.TaskState.RUNNING: // or 'running'
+								console.log("Upload is running");
+								break;
+						}
+					},
+					(error) => {
+						// Handle unsuccessful uploads
+						console.log("file upload failed");
+						console.error(error);
+						$("#selectedFileItemContainer-" + key).remove();
+						toaster(selectedFile.name + " uploading failed!");
+						delete selectedFiles[key];
+					},
+					() => {
+						uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+							$("#file-item-remove-button-" + key).css("display", "block");
+							$("#file-item-remove-button-" + key).removeClass(
+								"fa-minus-circle"
+							);
+							$("#file-item-remove-button-" + key).addClass("fa-check-circle");
+							$("#file-item-remove-button-" + key).css("color", "green");
+							$("#file-item-remove-button-" + key).removeAttr("onclick");
+
+							let notesInfo = {
+								id: fileID,
+								uploaded_by: user.email,
+								uploaded_date: time,
+								course: selectedCourse,
+								subject: selectedSubject,
+								download_url: downloadURL,
+							};
+							saveNotesInfoInDatabase(notesInfo, (error) => {
+								if (!error) {
+									toaster("Notes Sucessfully Uploaded");
+									setTimeout(() => {
+										$("#selectedFileItemContainer-" + key).remove();
+										uploadCount++;
+										filesUploaded(uploadCount);
+									}, 3000);
+								}
+							});
+						});
 					}
-				}, 100);
+				);
 			});
 		}
+	}
+};
+
+const saveNotesInfoInDatabase = (note, cb) => {
+	fetch("/api/notes/save", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(note),
+	})
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data);
+			if (data.error) {
+				toaster("Error at Saving Notes : " + data.message);
+				return cb(true);
+			} else {
+				return cb(false);
+			}
+		})
+		.catch((error) => {
+			console.error("Error:", error);
+			toaster("Error at Saving Notes : " + error);
+			return cb(true);
+		});
+};
+
+const filesUploaded = (count) => {
+	if (Object.keys(selectedFiles).length === count) {
+		toaster("Note Uploaded");
+		window.location.reload();
 	}
 };

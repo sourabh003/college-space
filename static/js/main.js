@@ -1,3 +1,18 @@
+const firebaseConfig = {
+	apiKey: "AIzaSyANg95C1HMW2pZT7lJu5ldT_4-ccF4EJq0",
+	authDomain: "college-space-728fd.firebaseapp.com",
+	projectId: "college-space-728fd",
+	storageBucket: "college-space-728fd.appspot.com",
+	messagingSenderId: "880508884040",
+	appId: "1:880508884040:web:7a83ef8426b5f588d0347d",
+};
+firebase.initializeApp(firebaseConfig);
+
+// Get a reference to the storage service, which is used to create references in your storage bucket
+const firebaseStorage = firebase.storage();
+const firebaseStorageRef = firebaseStorage.ref();
+const firebaseNotesBucket = firebaseStorageRef.child("notes");
+
 const storage = window.localStorage;
 
 $("#navigation-bar").ready(function () {
@@ -35,7 +50,6 @@ $("#navigation-bar").ready(function () {
 
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
-
 
 // Close the dropdown menu if the user clicks outside of it
 // window.onclick = function (event) {

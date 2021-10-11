@@ -152,35 +152,37 @@ const removeSelectedFile = (id) => {
 };
 
 const uploadNote = () => {
-	// let selectedCourse = $("#uploadDropdownCourse option:selected").val();
-	// let selectedSubject = $("#uploadDropdownSubject option:selected").val();
-	// // if (selectedCourse == "null" || selectedSubject == "null") {
-	// // 	toaster("Please select course and subject");
-	// // } else {
-	if (Object.keys(selectedFiles).length === 0) {
-		toaster("No Files Selected!");
+	let selectedCourse = $("#uploadDropdownCourse option:selected").val();
+	let selectedSubject = $("#uploadDropdownSubject option:selected").val();
+	if (selectedCourse == "null" || selectedSubject == "null") {
+		toaster("Please select course and subject");
 	} else {
-		Object.keys(selectedFiles).forEach((key) => {
-			let selectedFile = selectedFiles[key];
+		if (Object.keys(selectedFiles).length === 0) {
+			toaster("No Files Selected!");
+		} else {
+			Object.keys(selectedFiles).forEach((key) => {
+				let selectedFile = selectedFiles[key];
 
-			let progress = 0;
-			$("#progress-container-box-" + key).css("display", "flex");
-			let loadProgress = setInterval(() => {
-				if (progress < 100) {
-					console.log(progress);
-					progress++;
-					$("#file-upload-progress-bar-" + key).css("width", `${progress}%`);
-					$("#file-upload-progress-counter-" + key).html(`${progress}%`);
-				} else {
-					clearInterval(loadProgress);
-					console.log("Loading finished");
-					$("#file-item-remove-button-" + key).removeClass("fa-minus-circle");
-					$("#file-item-remove-button-" + key).addClass("fa-check-circle");
-					$("#file-item-remove-button-" + key).css("color", "green");
-					$("#file-item-remove-button-" + key).removeAttr("onclick");
-				}
-			}, 10);
-		});
+				let progress = 0;
+				$("#file-item-remove-button-" + key).css("display", "none");
+				$("#progress-container-box-" + key).css("display", "flex");
+				let loadProgress = setInterval(() => {
+					if (progress < 100) {
+						console.log(progress);
+						progress++;
+						$("#file-upload-progress-bar-" + key).css("width", `${progress}%`);
+						$("#file-upload-progress-counter-" + key).html(`${progress}%`);
+					} else {
+						clearInterval(loadProgress);
+						console.log("Loading finished");
+						$("#file-item-remove-button-" + key).css("display", "block");
+						$("#file-item-remove-button-" + key).removeClass("fa-minus-circle");
+						$("#file-item-remove-button-" + key).addClass("fa-check-circle");
+						$("#file-item-remove-button-" + key).css("color", "green");
+						$("#file-item-remove-button-" + key).removeAttr("onclick");
+					}
+				}, 100);
+			});
+		}
 	}
-	// // }
 };

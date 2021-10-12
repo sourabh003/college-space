@@ -45,3 +45,21 @@ def getSubjectByCourseID(data):
         data={"subjects": subjects},
         message="Fetch Subjects Success"
     )
+
+
+def getSubjectByID(id):
+    mydb = connect_to_database()
+    mycursor = mydb.cursor()
+
+    sql = f"SELECT * FROM subjects where id='{id}'"
+    mycursor.execute(sql)
+    results = mycursor.fetchall()
+    subject = {
+        "id": results[0][0],
+        "name": results[0][1],
+    }
+    return {
+        "error": False,
+        "data": {"subject": subject},
+        "message": "Fetch Subject By ID Success"
+    }

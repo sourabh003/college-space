@@ -97,14 +97,80 @@ const searchSubject = () => {
 	let selectedCourse = $("#courseDropdown option:selected").val();
 	let selectedSubject = $("#subjectDropdown option:selected").val();
 
-	setTimeout(() => {
+	if (selectedCourse === "null" || selectedSubject === "null") {
+		toaster("Searching all Notes");
+		fetch("/api/notes/get_all", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				showLoader(false);
+				if (data.error) {
+					toaster("Error at Fetching Notes : " + data.message);
+				} else {
+					console.log(data.data);
+					addNotesInLayout(data.data.notes);
+				}
+			})
+			.catch((error) => {
+				showLoader(false);
+				console.error("Error:", error);
+				toaster("Error at Fetching Subjects : " + error);
+			});
+	} else {
 		showLoader(false);
-		if (selectedCourse === "null" || selectedSubject === "null") {
-			toaster("Getting all Notes");
-		} else {
-			toaster(selectedCourse + " : " + selectedSubject);
-		}
-	}, 1000);
+		toaster(selectedCourse + " : " + selectedSubject);
+	}
+};
+
+const addNotesInLayout = (notes) => {
+	notes.forEach((note) => {
+		let uploaded_date = getGetCreatedTime(new Date(note.uploaded_date));
+		let content = `<div class="card searched-note" id="searched-note">
+			<div class="flexbox">
+				<img
+					src="/static/images/pdf.png"
+					alt=""
+					height="30"
+					width="30"
+				/>&nbsp;
+				<h4 class="font">${note.name}</h4>
+			</div>
+            <div class="flexbox note-tags-container">
+                <h6 class="notes-tag-course font">
+                    &nbsp;
+                    <i class="fas fa-school"></i>
+                    &nbsp;${note.course.name} &nbsp;
+                </h6>
+                &nbsp;
+                <h6 class="notes-tag-subject font">
+                    &nbsp;
+                    <i class="fas fa-book"></i>
+                    &nbsp;${note.subject.name} &nbsp;
+                </h6>
+                &nbsp;
+                <h6 class="notes-tag-uploader font">
+                    &nbsp;&nbsp;
+                    <i class="fas fa-user-circle"></i>
+                    &nbsp;By ${note.uploaded_by.name} &nbsp;
+                </h6>
+                &nbsp;
+                <h6 class="notes-tag-time font">
+                    &nbsp;&nbsp;
+                    <i class="fas fa-user-circle"></i>
+                    &nbsp;By ${note.uploaded_by.name} &nbsp;
+                </h6>
+            </div>
+			<h6 class="font" style="color: gray">${uploaded_date.time} &#x25cf; ${uploaded_date.date}</h6>
+			<a class="btn see-pdf-btn font" href="${note.download_url}" target="_blank">
+				Download &nbsp;&nbsp;<i class="fas fa-external-link-alt"></i>
+			</a>
+		</div>`;
+		$("#searched-notes-container").append(content);
+	});
 };
 
 $(document).ready(function () {
@@ -208,8 +274,10 @@ const uploadNote = () => {
 							$("#file-item-remove-button-" + key).css("color", "green");
 							$("#file-item-remove-button-" + key).removeAttr("onclick");
 
+							let filename = selectedFile.name.split(".pdf")[0];
 							let notesInfo = {
 								id: fileID,
+								name: filename,
 								uploaded_by: user.email,
 								uploaded_date: time,
 								course: selectedCourse,
@@ -264,4 +332,28 @@ const filesUploaded = (count) => {
 		toaster("Note Uploaded");
 		window.location.reload();
 	}
+};
+
+const getGetCreatedTime = (created_date) => {
+	var strArray = [
+		"Jan",
+		"Feb",
+		"Mar",
+		"Apr",
+		"May",
+		"Jun",
+		"Jul",
+		"Aug",
+		"Sep",
+		"Oct",
+		"Nov",
+		"Dec",
+	];
+	var d = created_date.getDate();
+	var m = strArray[created_date.getMonth()];
+	var y = created_date.getFullYear();
+	return {
+		time: created_date.toLocaleTimeString(),
+		date: (d <= 9 ? "0" + d : d) + "-" + m + "-" + y,
+	};
 };

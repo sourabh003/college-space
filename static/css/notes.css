@@ -13,7 +13,7 @@
 }
 
 .center-block {
-	border: solid 2px greenyellow;
+	/* border: solid 2px greenyellow; */
 	width: 50%;
 	padding: 10px;
 }
@@ -155,4 +155,61 @@ form button:active {
 
 .searched-note {
 	padding: 1vh;
+	margin-top: 10px;
+}
+
+.see-pdf-btn {
+	border-radius: 5px;
+	text-decoration: none;
+	color: black;
+	margin-top: 10px;
+	transition: 300ms;
+	background-color: #aed580;
+}
+
+.see-pdf-btn:hover {
+	background-color: #609e60;
+	color: black;
+}
+
+.notes-tag-course {
+	/* border: #0c5645 solid 1px; */
+	background-color: #ffb934;
+	color: #2f3c5e;
+	align-items: center;
+	padding: 5px;
+	cursor: pointer;
+	border-radius: 10px;
+}
+
+.notes-tag-subject {
+	/* border: #0c5645 solid 1px; */
+	background-color: #3e50b4;
+	cursor: pointer;
+	color: whitesmoke;
+	align-items: center;
+	padding: 5px;
+	border-radius: 10px;
+}
+
+.notes-tag-uploader {
+	background-color: gray;
+	cursor: pointer;
+	color: whitesmoke;
+	align-items: center;
+	padding: 5px;
+	border-radius: 10px;
+}
+
+.notes-tag-time {
+	background-color: #cec106;
+	cursor: pointer;
+	color: black;
+	align-items: center;
+	padding: 5px;
+	border-radius: 10px;
+}
+
+.note-tags-container {
+	flex-direction: row;
 }

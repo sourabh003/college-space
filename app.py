@@ -91,6 +91,14 @@ def deletePost():
 def getAllSubjects():
     return subjects_controller.getAllSubjects()
 
+# ===================== API to Search Subject by course ID ==================== #
+
+
+@app.route('/api/subject/search', methods=['POST'])
+def searchSubjectByCourseID():
+    data = request.get_json()
+    return subjects_controller.getSubjectByCourseID(data)
+
 
 # ===================== API to Get All Courses ==================== #
 
@@ -114,6 +122,13 @@ def getSubjectByCourseID():
 def saveNotes():
     data = request.get_json()
     return notes_controller.save_notes(data)
+
+# ===================== API to Get all Notes ==================== #
+
+
+@app.route('/api/notes/get_all', methods=['GET'])
+def getAllNotes():
+    return notes_controller.get_all_notes()
 
 
 if __name__ == "__main__":

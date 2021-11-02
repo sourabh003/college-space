@@ -158,18 +158,18 @@ form button:active {
 	margin-top: 10px;
 }
 
-.see-pdf-btn {
-	border-radius: 5px;
+.download-btn {
+	border-radius: 50px;
 	text-decoration: none;
-	color: black;
+	color: white;
 	margin-top: 10px;
 	transition: 300ms;
-	background-color: #aed580;
+	background-color: #1d89e4;
 }
 
-.see-pdf-btn:hover {
-	background-color: #609e60;
-	color: black;
+.download-btn:hover {
+	background-color: #0d4ba4;
+	color: white;
 }
 
 .notes-tag-course {
@@ -193,7 +193,7 @@ form button:active {
 }
 
 .notes-tag-uploader {
-	background-color: gray;
+	background-color: #e85a56;
 	cursor: pointer;
 	color: whitesmoke;
 	align-items: center;
@@ -212,4 +212,13 @@ form button:active {
 
 .note-tags-container {
 	flex-direction: row;
+}
+
+.justify-content-sb {
+	justify-content: space-between;
+}
+
+.notes-info-cell {
+	margin: 0;
+	padding: 10px;
 }

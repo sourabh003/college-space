@@ -97,7 +97,7 @@ const searchSubject = () => {
 	let selectedCourse = $("#courseDropdown option:selected").val();
 	let selectedSubject = $("#subjectDropdown option:selected").val();
 
-	if (selectedCourse === "null" || selectedSubject === "null") {
+	if (selectedCourse === "null") {
 		toaster("Searching all Notes");
 		fetch("/api/notes/get_all", {
 			method: "GET",
@@ -127,48 +127,103 @@ const searchSubject = () => {
 };
 
 const addNotesInLayout = (notes) => {
+	$("#searched-notes-container")
+		.html(`<div class="card searched-note" id="searched-note">
+				<table style="width: 100%">
+					<tr>
+						<td class="notes-info-cell">
+							<center>
+								<div class="font">
+									<h5 class="text-primary">Course</h5>
+								</div>
+							</center>
+						</td>
+						<td class="notes-info-cell">
+							<center>
+								<div class="font">
+									<h5 class="text-primary">Subject</h5>
+								</div>
+							</center>
+						</td>
+						<td class="notes-info-cell">
+							<center>
+								<div class="font">
+									<h5 class="text-primary">Uploaded Date</h5>
+								</div>
+							</center>
+						</td>
+						<td class="notes-info-cell">
+							<center>
+								<div class="font">
+									<h5 class="text-primary">Uploaded By</h5>
+								</div>
+							</center>
+						</td>
+						<td class="notes-info-cell">
+							<center>
+								<div class="font">
+									<h5 class="text-primary">Action</h5>
+								</div>
+							</center>
+						</td>
+					</tr>
+				</table>
+			</div>`);
 	notes.forEach((note) => {
 		let uploaded_date = getGetCreatedTime(new Date(note.uploaded_date));
+
 		let content = `<div class="card searched-note" id="searched-note">
-			<div class="flexbox">
-				<img
-					src="/static/images/pdf.png"
-					alt=""
-					height="30"
-					width="30"
-				/>&nbsp;
-				<h4 class="font">${note.name}</h4>
-			</div>
-            <div class="flexbox note-tags-container">
-                <h6 class="notes-tag-course font">
-                    &nbsp;
-                    <i class="fas fa-school"></i>
-                    &nbsp;${note.course.name} &nbsp;
-                </h6>
-                &nbsp;
-                <h6 class="notes-tag-subject font">
-                    &nbsp;
-                    <i class="fas fa-book"></i>
-                    &nbsp;${note.subject.name} &nbsp;
-                </h6>
-                &nbsp;
-                <h6 class="notes-tag-uploader font">
-                    &nbsp;&nbsp;
-                    <i class="fas fa-user-circle"></i>
-                    &nbsp;By ${note.uploaded_by.name} &nbsp;
-                </h6>
-                &nbsp;
-                <h6 class="notes-tag-time font">
-                    &nbsp;&nbsp;
-                    <i class="fas fa-user-circle"></i>
-                    &nbsp;By ${note.uploaded_by.name} &nbsp;
-                </h6>
-            </div>
-			<h6 class="font" style="color: gray">${uploaded_date.time} &#x25cf; ${uploaded_date.date}</h6>
-			<a class="btn see-pdf-btn font" href="${note.download_url}" target="_blank">
-				Download &nbsp;&nbsp;<i class="fas fa-external-link-alt"></i>
-			</a>
-		</div>`;
+				<div class="flexbox">
+					<img
+						src="/static/images/pdf.png"
+						alt=""
+						height="30"
+						width="30"
+					/>&nbsp;&nbsp;
+					<h4 class="font">${note.name}</h4>
+				</div>
+				<hr class="line-break" />
+                <table style="width: 100%">
+					<tr>
+						<td class="notes-info-cell">
+							<center>
+								<div class="font">
+									<h6 class="text-secondary">${note.course.name}</h6>
+								</div>
+							</center>
+						</td>
+						<td class="notes-info-cell">
+							<center>
+								<div class="font">
+									<h6 class="text-secondary">${note.subject.name}</h6>
+								</div>
+							</center>
+						</td>
+						<td class="notes-info-cell">
+							<center>
+								<div class="font">
+									<h6 class="text-secondary">${uploaded_date.time}</h6>
+                                    <h6 class="text-secondary">${uploaded_date.date}</h6>
+								</div>
+							</center>
+						</td>
+						<td class="notes-info-cell">
+							<center>
+								<div class="font">
+									<h6 class="text-secondary">${note.uploaded_by.name}</h6>
+								</div>
+							</center>
+						</td>
+						<td class="notes-info-cell">
+							<center>
+								<a class="btn download-btn font" href="${note.download_url}" target="_blank">
+									Download&nbsp;&nbsp;<i class="fas fa-download"></i>
+								</a>
+							</center>
+						</td>
+					</tr>
+				</table>
+			</div>`;
 		$("#searched-notes-container").append(content);
 	});
 };

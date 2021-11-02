@@ -342,3 +342,15 @@ body {
 .loader-container {
 	padding: 1vh;
 }
+
+.text-primary {
+	color: #333;
+	font-weight: bold;
+	font-family: "Open Sans", sans-serif;
+}
+
+.text-secondary {
+	color: #888;
+	font-family: "Open Sans", sans-serif;
+	font-weight: bold;
+}

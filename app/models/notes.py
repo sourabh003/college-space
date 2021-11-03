@@ -66,3 +66,44 @@ def get_all_notes():
         data={"notes": notes},
         message="Fetch Notes Success"
     )
+
+
+def search_notes(notes):
+    mydb = connect_to_database()
+    mycursor = mydb.cursor()
+
+    sql = f"SELECT * FROM notes where course='{notes['course']}'"
+    if notes['subject'] != "null":
+        sql = f"SELECT * FROM notes where course='{notes['course']}' AND subject='{notes['subject']}'"
+
+    mycursor.execute(sql)
+    results = mycursor.fetchall()
+    notes = []
+    for note in results:
+        print(note)
+        user = users_model.get_user({"email": note[1]})
+        course = courses_model.getCourseByID(note[3])['data']['course']
+        subject = subjects_model.getSubjectByID(note[4])['data']['subject']
+        notes.append({
+            "id": note[0],
+            "uploaded_by": {
+                "email": note[1],
+                "name": user['name']
+            },
+            "uploaded_date": note[2],
+            "course": {
+                "id": course['id'],
+                "name": course['name']
+            },
+            "subject": {
+                "id": subject['id'],
+                "name": subject['name']
+            },
+            "download_url": note[5],
+            "name": note[6]
+        })
+    return jsonify(
+        error=False,
+        data={"notes": notes},
+        message="Search Notes Success"
+    )

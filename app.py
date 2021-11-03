@@ -130,6 +130,14 @@ def saveNotes():
 def getAllNotes():
     return notes_controller.get_all_notes()
 
+# ===================== API to Get Particular Notes ==================== #
+
+
+@app.route('/api/notes/search', methods=['POST'])
+def searchNotes():
+    data = request.get_json()
+    return notes_controller.search_notes(data)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

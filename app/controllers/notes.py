@@ -16,3 +16,14 @@ def save_notes(data):
 
 def get_all_notes():
     return notes_model.get_all_notes()
+
+
+def search_notes(data):
+    required_fields = {'course', 'subject'}
+    if(data.keys() != required_fields):
+        return jsonify(
+            success=False,
+            message="Parameters Missing",
+            data=None
+        )
+    return notes_model.search_notes(data)

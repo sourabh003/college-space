@@ -98,7 +98,6 @@ const searchSubject = () => {
 	let selectedSubject = $("#subjectDropdown option:selected").val();
 
 	if (selectedCourse === "null") {
-		toaster("Searching all Notes");
 		fetch("/api/notes/get_all", {
 			method: "GET",
 			headers: {
@@ -121,12 +120,42 @@ const searchSubject = () => {
 				toaster("Error at Fetching Subjects : " + error);
 			});
 	} else {
-		showLoader(false);
-		toaster(selectedCourse + " : " + selectedSubject);
+		fetch("/api/notes/search", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				course: selectedCourse,
+				subject: selectedSubject,
+			}),
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				showLoader(false);
+				if (data.error) {
+					toaster("Error at Searching Notes : " + data.message);
+				} else {
+					console.log(data.data);
+					addNotesInLayout(data.data.notes);
+				}
+			})
+			.catch((error) => {
+				showLoader(false);
+				console.error("Error:", error);
+				toaster("Error at Searching Subjects : " + error);
+			});
 	}
 };
 
 const addNotesInLayout = (notes) => {
+	const count = Object.keys(notes).length;
+	if (count === 1) {
+		$("#search-results-counter").html(count + " result found");
+	} else {
+		$("#search-results-counter").html(count + " results found");
+	}
+
 	$("#searched-notes-container")
 		.html(`<div class="card searched-note" id="searched-note">
 				<table style="width: 100%">
@@ -186,11 +215,9 @@ const addNotesInLayout = (notes) => {
                 <table style="width: 100%">
 					<tr>
 						<td class="notes-info-cell">
-							<center>
-								<div class="font">
-									<h6 class="text-secondary">${note.course.name}</h6>
-								</div>
-							</center>
+                            <div class="font">
+                                <h6 class="text-secondary">${note.course.name}</h6>
+                            </div>
 						</td>
 						<td class="notes-info-cell">
 							<center>
@@ -214,12 +241,10 @@ const addNotesInLayout = (notes) => {
 								</div>
 							</center>
 						</td>
-						<td class="notes-info-cell">
-							<center>
-								<a class="btn download-btn font" href="${note.download_url}" target="_blank">
-									Download&nbsp;&nbsp;<i class="fas fa-download"></i>
-								</a>
-							</center>
+						<td class="notes-info-cell section-download">
+                            <a class="btn download-btn font" href="${note.download_url}" target="_blank">
+                                Download&nbsp;&nbsp;<i class="fas fa-download"></i>
+                            </a>
 						</td>
 					</tr>
 				</table>

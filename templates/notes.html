@@ -65,106 +65,57 @@
 		</div>
 	</div>
 	<div class="center-block">
-		<center><h4 class="font">Search Notes to see results</h4></center>
+		<div class="flexbox justify-content-sb">
+			<h4 class="font">Search Notes to see results</h4>
+			<h5 class="font text-secondary" id="search-results-counter"></h5>
+		</div>
 		<hr class="line-break" />
 		<br />
 		<div id="searched-notes-container">
 			<div class="card searched-note" id="searched-note">
 				<table style="width: 100%">
-					<tr>
-						<td class="notes-info-cell">
-							<center>
-								<div class="font">
-									<h5 class="text-primary">Course</h5>
-								</div>
-							</center>
-						</td>
-						<td class="notes-info-cell">
-							<center>
-								<div class="font">
-									<h5 class="text-primary">Subject</h5>
-								</div>
-							</center>
-						</td>
-						<td class="notes-info-cell">
-							<center>
-								<div class="font">
-									<h5 class="text-primary">Uploaded Date</h5>
-								</div>
-							</center>
-						</td>
-						<td class="notes-info-cell">
-							<center>
-								<div class="font">
-									<h5 class="text-primary">Uploaded By</h5>
-								</div>
-							</center>
-						</td>
-						<td class="notes-info-cell">
-							<center>
-								<div class="font">
-									<h5 class="text-primary">Action</h5>
-								</div>
-							</center>
-						</td>
-					</tr>
+					<thead>
+						<tr>
+							<td class="notes-info-cell">
+								<center>
+									<div class="font">
+										<h5 class="text-primary">Course</h5>
+									</div>
+								</center>
+							</td>
+							<td class="notes-info-cell">
+								<center>
+									<div class="font">
+										<h5 class="text-primary">Subject</h5>
+									</div>
+								</center>
+							</td>
+							<td class="notes-info-cell">
+								<center>
+									<div class="font">
+										<h5 class="text-primary">Uploaded Date</h5>
+									</div>
+								</center>
+							</td>
+							<td class="notes-info-cell">
+								<center>
+									<div class="font">
+										<h5 class="text-primary">Uploaded By</h5>
+									</div>
+								</center>
+							</td>
+							<td class="notes-info-cell">
+								<center>
+									<div class="font">
+										<h5 class="text-primary">Action</h5>
+									</div>
+								</center>
+							</td>
+						</tr>
+					</thead>
+					<tbody id="table-body"></tbody>
 				</table>
 			</div>
-			<!-- <div class="card searched-note" id="searched-note">
-				<div class="flexbox">
-					<img
-						src="/static/images/pdf.png"
-						alt=""
-						height="30"
-						width="30"
-					/>&nbsp;&nbsp;
-					<h4 class="font">Name</h4>
-				</div>
-				<hr class="line-break" />
-				<table style="width: 100%">
-					<tr>
-						<td class="notes-info-cell">
-							<center>
-								<div class="font">
-									<h5 class="text-primary">Course</h5>
-									<h6 class="text-secondary">BCA</h6>
-								</div>
-							</center>
-						</td>
-						<td class="notes-info-cell">
-							<center>
-								<div class="font">
-									<h5 class="text-primary">Subject</h5>
-									<h6 class="text-secondary">BCA</h6>
-								</div>
-							</center>
-						</td>
-						<td class="notes-info-cell">
-							<center>
-								<div class="font">
-									<h5 class="text-primary">Uploaded Date</h5>
-									<h6 class="text-secondary">Time &#x25cf; Date</h6>
-								</div>
-							</center>
-						</td>
-						<td class="notes-info-cell">
-							<center>
-								<div class="font">
-									<h5 class="text-primary">Uploaded By</h5>
-									<h6 class="text-secondary">User</h6>
-								</div>
-							</center>
-						</td>
-						<td class="notes-info-cell">
-							<center>
-								<a class="btn download-btn font" href="" target="_blank">
-									Download&nbsp;&nbsp;<i class="fas fa-download"></i>
-								</a>
-							</center>
-						</td>
-					</tr>
-				</table>
-			</div> -->
 		</div>
 	</div>
 	<div id="right-block" class="corner-blocks">

@@ -163,6 +163,8 @@ form button:active {
 	text-decoration: none;
 	color: white;
 	margin-top: 10px;
+	float: right;
+	right: 0;
 	transition: 300ms;
 	background-color: #1d89e4;
 }
@@ -221,4 +223,8 @@ form button:active {
 .notes-info-cell {
 	margin: 0;
 	padding: 10px;
+}
+
+.section-download {
+	/* border: solid 1px red; */
 }

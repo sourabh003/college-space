@@ -257,34 +257,70 @@ $(document).ready(function () {
 	$("form input").change(function () {
 		console.log(this.files);
 		Object.keys(this.files).forEach((key) => {
-			let id = "id" + new Date().getTime();
+			let id = "id" + getUniqueID();
 			let file = this.files[key];
 			if (file.type == "application/pdf") {
-				let item = `
-                <div id="selectedFileItemContainer-${id}" class="card">
-						<div id="selectedFileItem-${id}" class="flexbox selectedFileItems">
-							<h5 class="font">
-								<i class="fa fa-file-pdf"></i>
-								&nbsp; 
-                                ${file.name}
-							</h5>
-							&nbsp;&nbsp;
+				let size = file.size;
+				if (size > 1000000) {
+					size = (size / 1000000).toFixed(2) + " MB";
+				} else if (size > 1000) {
+					size = (size / 1000).toFixed(2) + " KB";
+				} else {
+					size = size + " Bytes";
+				}
+				let name = file.name.replace(".pdf", "");
+				let item = `<div id="selected-file-item-${id}" class="selected-file-item card">
+						<div class="flexbox justify-content-sb">
+							<div class="flexbox">
+								<img
+									src="/static/images/pdf.png"
+									width="30"
+									height="30"
+									alt=""
+								/>
+								&nbsp;&nbsp;
+								<div>
+									<h5 class="font">${name}</h5>
+									<h6 class="font text-secondary">${size}</h6>
+								</div>
+							</div>
 							<i
-								id="file-item-remove-button-${id}"
+								id="file-item-remover-${id}"
+								class="fas fa-minus-circle selected-file-item-remover"
 								onclick="removeSelectedFile('${id}')"
-								class="fa fa-minus-circle"
 							></i>
+							<img
+								id="file-item-loader-${id}"
+								class="selected-file-item-loader"
+								src="/static/images/loader.gif"
+								height="30"
+								width="30"
+								alt=""
+							/>
+							<img
+								id="file-item-uploaded-${id}"
+								class="selected-file-item-uploaded"
+								src="/static/images/check.gif"
+								height="30"
+								width="30"
+								alt=""
+							/>
 						</div>
-						<div id="progress-container-box-${id}" class="progress-container">
-							<h5 class="font" id="file-upload-progress-counter-${id}">0%</h5>
-							&nbsp;&nbsp;
+						<div
+							id="file-item-progress-${id}"
+							class="flexbox"
+                            style="display:none;"
+						>
+							<h5 id="file-item-progress-count-${id}" class="font">0%</h5>
+							&nbsp;
 							<div
-								id="file-upload-progress-bar-${id}"
-								class="file-upload-progress"
+								id="file-item-progress-bar-${id}"
+								class="selected-file-item-progress-bar"
 							></div>
 						</div>
 					</div>`;
 				$("#selectedFiles").append(item);
+				$(`#file-item-remover-${id}`).css("display", "block");
 				selectedFiles[id] = file;
 			}
 		});
@@ -293,7 +329,7 @@ $(document).ready(function () {
 });
 
 const removeSelectedFile = (id) => {
-	let itemID = `#selectedFileItem-${id}`;
+	let itemID = `#selected-file-item-${id}`;
 	$(itemID).remove();
 	delete selectedFiles[id];
 };
@@ -311,10 +347,14 @@ const uploadNote = () => {
 			let uploadCount = 0;
 			Object.keys(selectedFiles).forEach((key) => {
 				let time = new Date().getTime();
-				let fileID = "notes-" + time;
+				let fileID = "notes-" + getUniqueID();
 				let selectedFile = selectedFiles[key];
-				$("#file-item-remove-button-" + key).css("display", "none");
-				$("#progress-container-box-" + key).css("display", "flex");
+
+				// Modifying layouts for start upload
+				$(`#file-item-remover-${key}`).css("display", "none");
+				$(`#file-item-loader-${key}`).css("display", "block");
+				$(`#file-item-progress-${key}`).css("display", "flex");
+
 				console.log("Uploading " + selectedFile.name);
 				let uploadTask = firebaseNotesBucket.child(fileID).put(selectedFile);
 				uploadTask.on(
@@ -324,8 +364,9 @@ const uploadNote = () => {
 							(snapshot.bytesTransferred / snapshot.totalBytes) * 100
 						);
 
-						$("#file-upload-progress-bar-" + key).css("width", `${progress}%`);
-						$("#file-upload-progress-counter-" + key).html(`${progress}%`);
+						// Changing the progress bar and count
+						$(`#file-item-progress-bar-${key}`).css("width", `${progress}%`);
+						$(`#file-item-progress-count-${key}`).html(`${progress}%`);
 
 						switch (snapshot.state) {
 							case firebase.storage.TaskState.PAUSED: // or 'paused'
@@ -340,20 +381,15 @@ const uploadNote = () => {
 						// Handle unsuccessful uploads
 						console.log("file upload failed");
 						console.error(error);
-						$("#selectedFileItemContainer-" + key).remove();
+						$(`#selected-file-item-${key}`).remove();
 						toaster(selectedFile.name + " uploading failed!");
 						delete selectedFiles[key];
 					},
 					() => {
 						uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-							$("#file-item-remove-button-" + key).css("display", "block");
-							$("#file-item-remove-button-" + key).removeClass(
-								"fa-minus-circle"
-							);
-							$("#file-item-remove-button-" + key).addClass("fa-check-circle");
-							$("#file-item-remove-button-" + key).css("color", "green");
-							$("#file-item-remove-button-" + key).removeAttr("onclick");
-
+							$(`#file-item-progress-${key}`).css("display", "none");
+							$(`#file-item-loader-${key}`).css("display", "none");
+							$(`#file-item-uploaded-${key}`).css("display", "block");
 							let filename = selectedFile.name.split(".pdf")[0];
 							let notesInfo = {
 								id: fileID,
@@ -366,9 +402,8 @@ const uploadNote = () => {
 							};
 							saveNotesInfoInDatabase(notesInfo, (error) => {
 								if (!error) {
-									toaster("Notes Sucessfully Uploaded");
 									setTimeout(() => {
-										$("#selectedFileItemContainer-" + key).remove();
+										$(`#selected-file-item-${key}`).remove();
 										uploadCount++;
 										filesUploaded(uploadCount);
 									}, 3000);
@@ -381,6 +416,26 @@ const uploadNote = () => {
 		}
 	}
 };
+
+// const uploadNote = () => {
+// 	if (Object.keys(selectedFiles).length === 0) {
+// 		toaster("No Files Selected");
+// 	} else {
+// 		Object.keys(selectedFiles).forEach((key) => {
+// 			let selectedFile = selectedFiles[key];
+// 			$(`#file-item-remover-${key}`).css("display", "none");
+// 			$(`#file-item-loader-${key}`).css("display", "block");
+// 			$(`#file-item-progress-${key}`).css("display", "flex");
+// 			setTimeout(() => {
+// 				$(`#file-item-loader-${key}`).css("display", "none");
+// 				$(`#file-item-uploaded-${key}`).css("display", "block");
+// 				setTimeout(() => {
+// 					removeSelectedFile(key);
+// 				}, 2000);
+// 			}, 5000);
+// 		});
+// 	}
+// };
 
 const saveNotesInfoInDatabase = (note, cb) => {
 	fetch("/api/notes/save", {
@@ -409,7 +464,7 @@ const saveNotesInfoInDatabase = (note, cb) => {
 
 const filesUploaded = (count) => {
 	if (Object.keys(selectedFiles).length === count) {
-		toaster("Note Uploaded");
+		toaster("All Notes Uploaded");
 		window.location.reload();
 	}
 };
@@ -437,3 +492,23 @@ const getGetCreatedTime = (created_date) => {
 		date: (d <= 9 ? "0" + d : d) + "-" + m + "-" + y,
 	};
 };
+
+function getUniqueID() {
+	var S4 = function () {
+		return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+	};
+	return (
+		S4() +
+		S4() +
+		"-" +
+		S4() +
+		"-" +
+		S4() +
+		"-" +
+		S4() +
+		"-" +
+		S4() +
+		S4() +
+		S4()
+	);
+}

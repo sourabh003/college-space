@@ -228,3 +228,22 @@ form button:active {
 .section-download {
 	/* border: solid 1px red; */
 }
+
+.selected-file-item {
+	align-items: center;
+	vertical-align: middle;
+	padding-left: 10px;
+	margin-bottom: 10px;
+	padding-right: 10px;
+}
+
+.selected-file-item-uploaded,
+.selected-file-item-loader,
+.selected-file-item-remover {
+	display: none;
+}
+
+.selected-file-item-progress-bar {
+	padding: 2px;
+	background-color: rgb(57, 192, 57);
+}

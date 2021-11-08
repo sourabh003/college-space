@@ -465,7 +465,9 @@ const saveNotesInfoInDatabase = (note, cb) => {
 const filesUploaded = (count) => {
 	if (Object.keys(selectedFiles).length === count) {
 		toaster("All Notes Uploaded");
-		window.location.reload();
+		setTimeout(() => {
+			window.location.reload();
+		}, 2000);
 	}
 };
 

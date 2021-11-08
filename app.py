@@ -139,5 +139,14 @@ def searchNotes():
     return notes_controller.search_notes(data)
 
 
+# ===================== API to Get Notes Count ==================== #
+
+
+@app.route('/api/notes/count', methods=['POST'])
+def getNotesCount():
+    data = request.get_json()
+    return notes_controller.get_notes_count(data)
+
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -107,3 +107,16 @@ def search_notes(notes):
         data={"notes": notes},
         message="Search Notes Success"
     )
+
+
+def get_notes_count(data):
+    mydb = connect_to_database()
+    mycursor = mydb.cursor()
+    sql = f"SELECT COUNT(uploaded_by) FROM notes WHERE uploaded_by='{data['email']}';"
+    mycursor.execute(sql)
+    results = mycursor.fetchall()
+    return jsonify(
+        error=False,
+        data={"count": results[0][0]},
+        message="Fetch Notes Count Success"
+    )

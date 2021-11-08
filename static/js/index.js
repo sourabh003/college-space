@@ -30,6 +30,23 @@ const fetchProfileInfo = () => {
 			console.error("Error get post count:", error);
 			toaster("Get Post Error");
 		});
+
+	fetch("/api/notes/count", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ email: user.email }),
+	})
+		.then((response) => response.json())
+		.then((data) => {
+			console.log("Success:", data);
+			$("#uploaded-notes-counter").html(data.data.count);
+		})
+		.catch((error) => {
+			console.error("Error get notes count:", error);
+			toaster("Get notes Error");
+		});
 };
 
 const getPosts = () => {

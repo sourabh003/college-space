@@ -27,3 +27,14 @@ def search_notes(data):
             data=None
         )
     return notes_model.search_notes(data)
+
+
+def get_notes_count(data):
+    required_fields = {'email'}
+    if(data.keys() != required_fields):
+        return jsonify(
+            success=False,
+            message="Parameters Missing",
+            data=None
+        )
+    return notes_model.get_notes_count(data)

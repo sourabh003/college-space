@@ -77,7 +77,12 @@
 					Create a Post
 				</button>
 				&nbsp;&nbsp;&nbsp;
-				<button class="custom-button3 font text-light">Upload Notes</button>
+				<a
+					href="/notes"
+					style="text-decoration: none"
+					class="custom-button3 font text-light"
+					>Upload Notes</a
+				>
 			</div>
 		</div>
 
@@ -95,36 +100,30 @@
 				Shortcuts
 			</h4>
 			<hr class="line-break" />
-			<div class="shortcut-card">
-				<img
-					src="{{ url_for('static',  filename='images/notes.png') }}"
-					alt=""
-					width="30"
-					height="30"
-				/>
-				&nbsp;&nbsp;
-				<h5 class="font">Notes</h5>
-			</div>
-			<div class="shortcut-card">
-				<img
-					src="{{ url_for('static',  filename='images/notice.png') }}"
-					alt=""
-					width="30"
-					height="30"
-				/>
-				&nbsp;&nbsp;
-				<h5 class="font">Notices</h5>
-			</div>
-			<div class="shortcut-card">
-				<img
-					src="{{ url_for('static',  filename='images/post.png') }}"
-					alt=""
-					width="30"
-					height="30"
-				/>
-				&nbsp;&nbsp;
-				<h5 class="font">Posts</h5>
-			</div>
+			<a href="/notes" style="text-decoration: none; color: gray">
+				<div class="shortcut-card">
+					<img
+						src="{{ url_for('static',  filename='images/notes.png') }}"
+						alt=""
+						width="30"
+						height="30"
+					/>
+					&nbsp;&nbsp;
+					<h5 class="font">Notes</h5>
+				</div>
+			</a>
+			<a href="/about" style="text-decoration: none; color: gray">
+				<div class="shortcut-card">
+					<img
+						src="{{ url_for('static',  filename='images/about.png') }}"
+						alt=""
+						width="30"
+						height="30"
+					/>
+					&nbsp;&nbsp;
+					<h5 class="font">About</h5>
+				</div>
+			</a>
 		</div>
 	</div>
 </div>

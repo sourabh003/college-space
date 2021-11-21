@@ -142,10 +142,21 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title font text-light" id="myModalLabel">
-					Upload Something
+					Upload a Post or Image
 				</h4>
 			</div>
 			<div class="modal-body">
+				<input type="file" id="image-selector" />
+				<img
+					src="{{ url_for('static',  filename='images/add_image.png') }}"
+					alt=""
+					width="50"
+					height="50"
+					id="btn-add-image"
+					onclick="openImagePicker()"
+				/>
+				<div id="area-selected-image"></div>
+				<br />
 				<textarea
 					type="text"
 					id="post_content"

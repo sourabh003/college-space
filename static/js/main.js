@@ -35,6 +35,8 @@ $("#navigation-bar").ready(function () {
 				.then((data) => {
 					user = data.data;
 					$("#user-name").html(user.name);
+					$("#profile-info-username").html(user.name);
+					$("#profile-info-user-position").html(user.course);
 					storage.setItem("user", JSON.stringify(user));
 					console.log("Success:", data);
 				})

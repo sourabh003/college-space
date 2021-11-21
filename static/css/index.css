@@ -141,3 +141,11 @@
 #loader > img {
 	border-radius: 50%;
 }
+
+#post_content {
+	resize: none;
+}
+
+#image-selector {
+	display: none;
+}

@@ -212,3 +212,7 @@ const getGetCreatedTime = (created_date) => {
 		date: (d <= 9 ? "0" + d : d) + "-" + m + "-" + y,
 	};
 };
+
+const openImagePicker = () => {
+	document.getElementById("image-selector").click();
+};

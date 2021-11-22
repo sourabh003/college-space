@@ -144,8 +144,27 @@
 
 #post_content {
 	resize: none;
+	border: none;
+	overflow: hidden;
+	background-color: white;
+	width: 100%;
+}
+
+#post_content:focus {
+	outline: none;
 }
 
 #image-selector {
+	padding: 5%;
+	background-color: #e0e0e0;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+#selected-image {
+	width: 100%;
+}
+
+#image-selector-input {
 	display: none;
 }

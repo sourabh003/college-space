@@ -137,6 +137,7 @@
 	role="dialog"
 	aria-labelledby="uploadModal"
 	aria-hidden="true"
+	data-backdrop="static"
 >
 	<div class="modal-dialog radius">
 		<div class="modal-content">
@@ -146,26 +147,39 @@
 				</h4>
 			</div>
 			<div class="modal-body">
-				<input type="file" id="image-selector" />
-				<img
-					src="{{ url_for('static',  filename='images/add_image.png') }}"
-					alt=""
-					width="50"
-					height="50"
-					id="btn-add-image"
-					onclick="openImagePicker()"
-				/>
+				<div id="selected-image"></div>
+				<div id="image-selector" class="" onclick="imagePicker()">
+					<center>
+						<img
+							src="{{ url_for('static',  filename='images/add-image.png') }}"
+							alt=""
+							width="60"
+							height="60"
+						/>
+						<h4 class="font text-secondary">Click here to add an Image</h4>
+						<input
+							type="file"
+							id="image-selector-input"
+							onchange="imageSelected()"
+						/>
+					</center>
+				</div>
 				<div id="area-selected-image"></div>
 				<br />
 				<textarea
+					onkeyup="textAreaAdjust(this)"
 					type="text"
 					id="post_content"
-					placeholder="Type Here"
-					class="custom-input font"
+					placeholder="Write something here"
+					class="font"
 				></textarea>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="font custom-button2" data-dismiss="modal">
+				<button
+					type="button"
+					onclick="closePostModal()"
+					class="font custom-button2"
+				>
 					Close
 				</button>
 				<button

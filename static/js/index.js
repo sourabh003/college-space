@@ -213,6 +213,36 @@ const getGetCreatedTime = (created_date) => {
 	};
 };
 
-const openImagePicker = () => {
-	document.getElementById("image-selector").click();
+const imagePicker = () => {
+	document.getElementById("image-selector-input").click();
+};
+
+const imageSelected = () => {
+	let imageSelectorLayout = $("#image-selector");
+	let selectedImageLayout = $("#selected-image");
+	let input = document.getElementById("image-selector-input");
+	let file = input.files[0];
+	console.log(file);
+	let reader = new FileReader();
+	reader.onload = function (e) {
+		let image = document.createElement("img");
+		let containerwidth = document.getElementById("selected-image").offsetWidth;
+		image.width = containerwidth;
+		image.src = e.target.result;
+		image.style.borderRadius = "10px";
+		selectedImageLayout.append(image);
+		imageSelectorLayout.css("display", "none");
+	};
+	reader.readAsDataURL(file);
+};
+
+function textAreaAdjust(element) {
+	element.style.height = "1px";
+	element.style.height = 25 + element.scrollHeight + "px";
+}
+const closePostModal = () => {
+	document.getElementById("image-selector-input").value = "";
+	$("#selected-image").empty();
+	$("#image-selector").css("display", "block");
+	$("#uploadModal").modal("hide");
 };

@@ -168,3 +168,8 @@
 #image-selector-input {
 	display: none;
 }
+
+#btn-remove-image {
+	position: absolute;
+	margin: 10px;
+}

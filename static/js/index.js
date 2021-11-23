@@ -220,6 +220,16 @@ const imagePicker = () => {
 const imageSelected = () => {
 	let imageSelectorLayout = $("#image-selector");
 	let selectedImageLayout = $("#selected-image");
+	let imageRemover = `<img
+						src="/static/images/remove.jpg"
+						alt=""
+						width="30"
+						id="btn-remove-image"
+						onclick="removeImage()"
+						height="30"
+						style="cursor: pointer"
+					/>`;
+	selectedImageLayout.append(imageRemover);
 	let input = document.getElementById("image-selector-input");
 	let file = input.files[0];
 	console.log(file);
@@ -231,18 +241,26 @@ const imageSelected = () => {
 		image.src = e.target.result;
 		image.style.borderRadius = "10px";
 		selectedImageLayout.append(image);
+		selectedImageLayout.css("display", "block");
 		imageSelectorLayout.css("display", "none");
 	};
 	reader.readAsDataURL(file);
 };
 
-function textAreaAdjust(element) {
+const textAreaAdjust = (element) => {
 	element.style.height = "1px";
 	element.style.height = 25 + element.scrollHeight + "px";
-}
+};
+
 const closePostModal = () => {
 	document.getElementById("image-selector-input").value = "";
 	$("#selected-image").empty();
 	$("#image-selector").css("display", "block");
 	$("#uploadModal").modal("hide");
+};
+
+const removeImage = () => {
+	document.getElementById("image-selector-input").value = "";
+	$("#selected-image").empty();
+	$("#image-selector").css("display", "block");
 };

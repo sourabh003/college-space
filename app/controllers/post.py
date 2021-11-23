@@ -3,7 +3,7 @@ import app.models.post as posts_model
 
 
 def create_post(data):
-    required_fields = {'created_by', 'data', 'created_date'}
+    required_fields = {'created_by', 'data', 'created_date', 'image_url'}
     if(data.keys() != required_fields):
         return jsonify(
             success=False,

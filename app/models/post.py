@@ -11,8 +11,9 @@ def create_post(post):
 
     id = uniqueID()
 
-    sql = "INSERT INTO posts (id, created_by, created_date, data) VALUES (%s, %s, %s, %s)"
-    val = (id, post['created_by'], post['created_date'], post['data'])
+    sql = "INSERT INTO posts (id, created_by, created_date, data, image_url) VALUES (%s, %s, %s, %s, %s)"
+    val = (id, post['created_by'], post['created_date'],
+           post['data'], post['image_url'])
     mycursor.execute(sql, val)
     mydb.commit()
 
@@ -31,7 +32,8 @@ def create_post(post):
             "email": user['email']
         },
         "created_date": post['created_date'],
-        "data": post['data']
+        "data": post['data'],
+        "image_url": post['image_url']
     }
     return jsonify(
         success=True,
@@ -60,6 +62,7 @@ def get_posts():
             },
             "created_date": post[2],
             "data": post[3],
+            "image_url": post[4],
         })
     return jsonify(
         error=False,

@@ -80,7 +80,10 @@ const addPostInLayout = (post, prepend) => {
 		isDeleteAble = true;
 	}
 	let created_date = getGetCreatedTime(new Date(post.created_date));
-	let postLayout = `<div id="post-${post.id}" class="post-layout font radius shadow">
+	let postLayout;
+
+	if (post.image_url === "null") {
+		postLayout = `<div id="post-${post.id}" class="post-layout font radius shadow">
 			<div class="post-layout-header">
                 <div class="post-creator-info">
                     <h4 class="post-header" id="post">${post.created_by.name}</h4>
@@ -93,6 +96,22 @@ const addPostInLayout = (post, prepend) => {
 			<hr class="custom-line" />
 			<p>${post.data}</p>
 		</div>`;
+	} else {
+		postLayout = `<div id="post-${post.id}" class="post-layout font radius shadow">
+			<div class="post-layout-header">
+                <div class="post-creator-info">
+                    <h4 class="post-header" id="post">${post.created_by.name}</h4>
+                    <h6 class="post-time">${created_date.time} &#x25cf; ${created_date.date}</h6>
+                </div>
+                <button onclick="openPostOptions(${isDeleteAble}, '${post.id}')" class="dropbtn">
+                    <i class="fa fa-ellipsis-v"></i>
+                </button>
+            </div>
+			<hr class="custom-line" />
+			<p>${post.data}</p>
+            <img src="${post.image_url}" class="post-attached-image"></img>
+		</div>`;
+	}
 
 	if (prepend) {
 		$("#activities-section").prepend(postLayout);
@@ -108,36 +127,97 @@ const reloadPosts = () => {
 };
 
 const uploadPost = () => {
+	let imageInput = document.getElementById("image-selector-input");
+	let closeBtn = $("#btn_close_modal");
+	let uploadBtn = $("#btn_upload");
+
 	let user = JSON.parse(storage.getItem("user"));
 	let content = $("textarea#post_content").val();
-	if (content === "") {
-		toaster("No Content!");
+	if (imageInput.files[0] === undefined && content === "") {
+		toaster("No Text or Image!");
 	} else {
-		let created_date = new Date().getTime();
-		let postData = {
-			created_by: user.email,
-			data: content,
-			created_date: created_date,
-		};
-		fetch("/api/post/create", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(postData),
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				console.log("Success:", data);
-				$("textarea#post_content").val("");
-				$("#uploadModal").modal("hide");
-				addPostInLayout(data.data.post, true);
-				toaster("Post Uploaded");
+		closeBtn.attr("disabled", "true");
+		uploadBtn.attr("disabled", "true");
+		showLoader(true);
+
+		if (imageInput.files[0] === undefined) {
+			let created_date = new Date().getTime();
+			let postData = {
+				created_by: user.email,
+				data: content,
+				created_date: created_date,
+				image_url: "null",
+			};
+			fetch("/api/post/create", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(postData),
 			})
-			.catch((error) => {
-				console.error("Error:", error);
-				toaster(error.message);
-			});
+				.then((response) => response.json())
+				.then((data) => {
+					console.log("Success:", data);
+					$("textarea#post_content").val("");
+					closePostModal();
+					addPostInLayout(data.data.post, true);
+					toaster("Post Uploaded");
+				})
+				.catch((error) => {
+					console.error("Error:", error);
+					toaster(error.message);
+					closePostModal();
+				});
+		} else {
+			// Uploding image to firebase
+			let image = imageInput.files[0];
+			let imageName = getUniqueID() + getImageExtenstion(image.type);
+			let uploadTask = firebaseImagesBucket.child(imageName).put(image);
+			uploadTask.on(
+				"state_changed",
+				(snapshot) => {
+					let progress =
+						(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+					// console.log("Upload is " + progress + "% done");
+				},
+				(error) => {
+					closePostModal();
+					toaster("Image Upload failed. Please try again");
+					showLoader(false);
+				},
+				() => {
+					uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+						let created_date = new Date().getTime();
+						let postData = {
+							created_by: user.email,
+							data: content,
+							created_date: created_date,
+							image_url: downloadURL,
+						};
+						fetch("/api/post/create", {
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify(postData),
+						})
+							.then((response) => response.json())
+							.then((data) => {
+								console.log("Success:", data);
+								$("textarea#post_content").val("");
+								closePostModal();
+								addPostInLayout(data.data.post, true);
+								toaster("Post Uploaded");
+							})
+							.catch((error) => {
+								console.error("Error:", error);
+								toaster(error.message);
+								closePostModal();
+							});
+					});
+				}
+			);
+		}
 	}
 };
 
@@ -218,9 +298,14 @@ const imagePicker = () => {
 };
 
 const imageSelected = () => {
-	let imageSelectorLayout = $("#image-selector");
-	let selectedImageLayout = $("#selected-image");
-	let imageRemover = `<img
+	let input = document.getElementById("image-selector-input");
+	let file = input.files[0];
+	console.log(file);
+
+	if (file.type === "image/jpeg" || file.type === "image/png") {
+		let imageSelectorLayout = $("#image-selector");
+		let selectedImageLayout = $("#selected-image");
+		let imageRemover = `<img
 						src="/static/images/remove.jpg"
 						alt=""
 						width="30"
@@ -229,22 +314,24 @@ const imageSelected = () => {
 						height="30"
 						style="cursor: pointer"
 					/>`;
-	selectedImageLayout.append(imageRemover);
-	let input = document.getElementById("image-selector-input");
-	let file = input.files[0];
-	console.log(file);
-	let reader = new FileReader();
-	reader.onload = function (e) {
-		let image = document.createElement("img");
-		let containerwidth = document.getElementById("selected-image").offsetWidth;
-		image.width = containerwidth;
-		image.src = e.target.result;
-		image.style.borderRadius = "10px";
-		selectedImageLayout.append(image);
-		selectedImageLayout.css("display", "block");
-		imageSelectorLayout.css("display", "none");
-	};
-	reader.readAsDataURL(file);
+		selectedImageLayout.append(imageRemover);
+		let reader = new FileReader();
+		reader.onload = function (e) {
+			let image = document.createElement("img");
+			let containerwidth =
+				document.getElementById("selected-image").offsetWidth;
+			image.width = containerwidth;
+			image.src = e.target.result;
+			image.style.borderRadius = "10px";
+			image.classList.add("card");
+			selectedImageLayout.append(image);
+			selectedImageLayout.css("display", "block");
+			imageSelectorLayout.css("display", "none");
+		};
+		reader.readAsDataURL(file);
+	} else {
+		toaster("File not Supported");
+	}
 };
 
 const textAreaAdjust = (element) => {
@@ -257,10 +344,34 @@ const closePostModal = () => {
 	$("#selected-image").empty();
 	$("#image-selector").css("display", "block");
 	$("#uploadModal").modal("hide");
+	showLoader(false);
 };
 
 const removeImage = () => {
 	document.getElementById("image-selector-input").value = "";
 	$("#selected-image").empty();
 	$("#image-selector").css("display", "block");
+};
+
+const showLoader = (show) => {
+	if (show) {
+		$("#post-loader").css("display", "block");
+	} else {
+		$("#post-loader").css("display", "none");
+	}
+};
+
+function getUniqueID() {
+	var S4 = function () {
+		return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+	};
+	return S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4();
+}
+
+const getImageExtenstion = (type) => {
+	if (type === "image/jpeg") {
+		return ".jpg";
+	} else {
+		return ".png";
+	}
 };

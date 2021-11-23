@@ -12,6 +12,7 @@ firebase.initializeApp(firebaseConfig);
 const firebaseStorage = firebase.storage();
 const firebaseStorageRef = firebaseStorage.ref();
 const firebaseNotesBucket = firebaseStorageRef.child("notes");
+const firebaseImagesBucket = firebaseStorageRef.child("images");
 
 const storage = window.localStorage;
 

@@ -29,6 +29,11 @@ def registerPage():
 def notesPage():
     return render_template('notes.html')
 
+
+@app.route("/about")
+def aboutPage():
+    return render_template('about.html')
+
 # ===================== APIs for User Login ==================== #
 
 

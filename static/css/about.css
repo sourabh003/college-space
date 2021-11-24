@@ -1,0 +1,44 @@
+.main-container {
+	/* border: solid brown 5px; */
+	width: 100vhs;
+	background-color: #191919;
+	display: flex;
+	padding: 5px;
+	height: 100vh;
+	padding-top: 100px;
+}
+
+.left-container {
+	height: 100%;
+	/* border: solid 5px red; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 50%;
+	padding: 1vh;
+}
+
+.right-container {
+	height: 100%;
+	/* border: solid 5px green; */
+	padding: 1vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 50%;
+}
+
+#about-image {
+	width: 100%;
+	/* border: solid yellow 2px; */
+}
+
+.text-container {
+	padding: 5vh;
+}
+
+.img-white-bg {
+	background-color: white;
+	padding: 10px;
+	border-radius: 10px;
+}

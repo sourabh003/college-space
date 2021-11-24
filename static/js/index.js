@@ -109,7 +109,7 @@ const addPostInLayout = (post, prepend) => {
             </div>
 			<hr class="custom-line" />
 			<p>${post.data}</p>
-            <img src="${post.image_url}" class="post-attached-image"></img>
+            <center><img src="${post.image_url}" class="post-attached-image"></img></center>
 		</div>`;
 	}
 

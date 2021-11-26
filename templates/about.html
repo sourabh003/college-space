@@ -11,80 +11,81 @@
 {% endblock %} {% block body %}
 
 <div class="main-container">
-	<div class="left-container">
-		<center>
+	<center>
+		<div class="left-container">
 			<img
 				class="card"
 				src="{{ url_for('static',  filename='images/college.jpg') }}"
 				alt=""
 				id="about-image"
 			/>
-		</center>
-	</div>
-	<div class="right-container">
-		<div class="text-container">
-			<h2 class="font text-primary">About College-Space</h2>
-			<br />
-			<hr class="line-break" />
-			<br />
-			<h4 class="font text-secondary">
-				College-Space is an online portal for college students. Students and
-				faculties can upload Notes, Images or Post updates happening in college.
-				<br /><br />
-				College-Space is built in Python. It uses Python's Flask library for
-				backend server.
-				<br /><br />
-				The frontend is built using HTML, CSS and JavaScript.
-				<br /><br />
-				And the databases used are MySQL for raw data and Firebase for storing
-				files like PDFs and Images.
-			</h4>
-			<br /><br />
-			<div>
-				<h4 class="font text-primary">Technologies Used</h4>
+		</div>
+		<div class="right-container">
+			<div class="text-container">
+				<h2 class="font text-primary text-light">About College-Space</h2>
 				<br />
-				<div class="flexbox justify-content-sb">
-					<img
-						src="{{ url_for('static',  filename='images/html.png') }}"
-						width="100px"
-						alt=""
-					/>&nbsp;&nbsp;&nbsp;
-					<img
-						src="{{ url_for('static',  filename='images/css.png') }}"
-						width="100px"
-						alt=""
-					/>&nbsp;&nbsp;&nbsp;
-					<img
-						src="{{ url_for('static',  filename='images/js.png') }}"
-						width="100px"
-						alt=""
-					/>&nbsp;&nbsp;&nbsp;
-					<img
-						src="{{ url_for('static',  filename='images/python.png') }}"
-						width="100px"
-						alt=""
-					/>&nbsp;&nbsp;&nbsp;
-					<img
-						src="{{ url_for('static',  filename='images/flask.png') }}"
-						width="100px"
-						class="img-white-bg"
-						alt=""
-					/>&nbsp;&nbsp;&nbsp;
-					<img
-						src="{{ url_for('static',  filename='images/mysql.png') }}"
-						width="100px"
-						class="img-white-bg"
-						alt=""
-					/>&nbsp;&nbsp;&nbsp;
-					<img
-						src="{{ url_for('static',  filename='images/firebase.png') }}"
-						width="200px"
-						alt=""
-					/>
+				<hr class="line-break" />
+				<br />
+				<h4 class="font text-secondary">
+					College-Space is an online portal for college students. Students and
+					faculties can upload Notes, Images or Post updates happening in
+					college.
+					<br /><br />
+					College-Space is built in Python. It uses Python's Flask library for
+					backend server.
+					<br /><br />
+					The frontend is built using HTML, CSS and JavaScript.
+					<br /><br />
+					And the databases used are MySQL for raw data and Firebase for storing
+					files like PDFs and Images.
+				</h4>
+				<br /><br />
+				<div>
+					<h4 class="font text-primary text-light">Technologies Used</h4>
+					<br />
+					<div class="flexbox justify-content-sb">
+						<img
+							src="{{ url_for('static',  filename='images/html.png') }}"
+							width="100px"
+							alt=""
+						/>&nbsp;&nbsp;&nbsp;
+						<img
+							src="{{ url_for('static',  filename='images/css.png') }}"
+							width="100px"
+							alt=""
+						/>&nbsp;&nbsp;&nbsp;
+						<img
+							src="{{ url_for('static',  filename='images/js.png') }}"
+							width="100px"
+							alt=""
+						/>&nbsp;&nbsp;&nbsp;
+						<img
+							src="{{ url_for('static',  filename='images/python.png') }}"
+							width="100px"
+							alt=""
+						/>&nbsp;&nbsp;&nbsp;
+						<img
+							src="{{ url_for('static',  filename='images/flask.png') }}"
+							width="100px"
+							class="img-white-bg"
+							alt=""
+						/>&nbsp;&nbsp;&nbsp;
+						<img
+							src="{{ url_for('static',  filename='images/mysql.png') }}"
+							width="100px"
+							class="img-white-bg"
+							alt=""
+						/>&nbsp;&nbsp;&nbsp;
+						<img
+							src="{{ url_for('static',  filename='images/firebase.png') }}"
+							width="200px"
+							alt=""
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</center>
 </div>
 
 {%endblock %}

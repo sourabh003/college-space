@@ -1,6 +1,7 @@
 #body-block {
 	/* background-image: linear-gradient(180deg, #053772, #00082f); */
-	background-color: #f2f2f2;
+	background-image: linear-gradient(180deg, #b5dce3, #4eadbd);
+	/* background-color: #191919; */
 	min-height: 100vh;
 	/* border: solid 2px red; */
 	padding-top: 100px;

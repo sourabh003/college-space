@@ -37,6 +37,7 @@ def get_all_notes():
     mycursor.execute(sql)
     results = mycursor.fetchall()
     notes = []
+    print(results)
     for note in results:
         print(note)
         user = users_model.get_user({"email": note[1]})

@@ -1,10 +1,11 @@
 .main-container {
 	/* border: solid brown 5px; */
-	width: 100vhs;
-	background-color: #191919;
-	display: flex;
+	background-image: linear-gradient(180deg, #2fb7c3, #312d79);
+	/* background-color: #191919; */
+	width: 100%;
+	display: table;
 	padding: 5px;
-	height: 100vh;
+	min-height: 100vh;
 	padding-top: 100px;
 }
 
@@ -31,6 +32,7 @@
 #about-image {
 	width: 100%;
 	/* border: solid yellow 2px; */
+	height: 500px;
 }
 
 .text-container {
@@ -41,4 +43,10 @@
 	background-color: white;
 	padding: 10px;
 	border-radius: 10px;
+}
+
+@media screen and (max-width: 1024px) {
+	.yourClass {
+		display: none !important;
+	}
 }

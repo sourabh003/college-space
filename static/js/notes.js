@@ -117,7 +117,7 @@ const searchSubject = () => {
 			.catch((error) => {
 				showLoader(false);
 				console.error("Error:", error);
-				toaster("Error at Fetching Subjects : " + error);
+				toaster("Error at Fetching Notes : " + error);
 			});
 	} else {
 		fetch("/api/notes/search", {

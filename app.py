@@ -92,6 +92,14 @@ def deletePost():
 # ===================== API to Get All Subjects ==================== #
 
 
+@app.route('/api/subject/add', methods=['POST'])
+def addNewSubject():
+    data = request.get_json()
+    return subjects_controller.addNewSubject(data)
+
+# ===================== API to Get All Subjects ==================== #
+
+
 @app.route('/api/subject/get_all', methods=['GET'])
 def getAllSubjects():
     return subjects_controller.getAllSubjects()

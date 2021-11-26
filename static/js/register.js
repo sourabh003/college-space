@@ -4,6 +4,29 @@ window.onload = function () {
 	let token = storage.getItem("token");
 	if (token !== null) {
 		window.location.href = "/";
+	} else {
+		fetch("/api/course/get_all", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				let content = `<option class="dropdownOptions" value="Select Course">
+                                <h3>Select Course</h3>
+                            </option>`;
+
+				data.data.courses.forEach((element) => {
+					console.log(element);
+					content += `<option class="dropdownOptions" value="${element.name}"><h3>${element.name}</h3></option>`;
+				});
+
+				$("#courseDropdown").html(content);
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+			});
 	}
 };
 
